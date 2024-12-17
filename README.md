@@ -248,6 +248,11 @@ POST /api/v1/pacientes
     - Caso o `cpf` informado não seja valido será retornado um BadRequest
 
 - #### Atributos
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Nome | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
+
+
     - :small_orange_diamond: **nome** | String: Deve ser informado o nome completo e so será permitido apenas letras, em caso de chars especial ou números será retornado um BadRequest
         - Exemplo válido: Gabriel Teste
         - Exemplo inválido: T3ste
