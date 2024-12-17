@@ -200,7 +200,6 @@ GET /api/v1/medicos/{medicoId}/horarios-disponiveis
     - Será retornado uma lista com os horarios disponiveis do médico
 
 - #### Route Parametros
-    - :small_orange_diamond:**mmedicoId** | int: Deve ser informado o id do médico
 | Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
 |----|----|----|----|----|----|
 | MedicoId | Number | Sim | Deve ser informado o Id | 2 | false |
