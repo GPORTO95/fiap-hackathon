@@ -251,20 +251,9 @@ POST /api/v1/pacientes
 | Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
 |----|----|----|----|----|----|
 | Nome | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
-
-
-    - :small_orange_diamond: **nome** | String: Deve ser informado o nome completo e so será permitido apenas letras, em caso de chars especial ou números será retornado um BadRequest
-        - Exemplo válido: Gabriel Teste
-        - Exemplo inválido: T3ste
-    - :small_orange_diamond: **email** | String: Deve ser informado um e-mail válido
-        - Exemplo válido: teste@exemplo.com
-        - Exemplo inválido: teste@exemplo
-    - :small_orange_diamond: **cpf** | String: Deve ser informado um número de cpf válido sem pontos e traço
-        - Exemplo válido: 21644957051
-        - Exemplo inválido: 216.449.570-51
-    - :small_orange_diamond: **senha** | String: Deve ser informado a senha contendo no mínimo 8 chars, 1 letra maiúscula, 1 letra minúscula, números e char especial
-        - Exemplo válido: Teste@123
-        - Exemplo inválido: Teste
+| Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
+| Cpf | String | Sim | Deve ser informado um cpf válido sem pontos e traço | 21644957051 | 216.449.570-51 |
+| Senha | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
 
 - #### Exemplo Request
     - ##### Válido
