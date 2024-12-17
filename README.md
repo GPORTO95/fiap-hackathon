@@ -1,4 +1,4 @@
-🔥 FIAP | Hackathon - Health&Med
+# 🔥 FIAP | Hackathon - Health&Med
 
 O objetivo desse desafio é criar uma aplicação onde seja possível realizar o cadastro de médico, pacientes, horários disponíveis de médicos e realização de consulta de pacientes, testes unitários e pipeline CI/CD.
 
@@ -36,7 +36,7 @@ O objetivo desse desafio é criar uma aplicação onde seja possível realizar o
 - **Domain.UnitTests**: Testes unitário para entidades e objetos de valor
 
 ## :deciduous_tree: Projeto
-src
+<!-- src
     |-- building blocks
     |   |-- Hackathon.HealthMed.Kernel
     |   |   |-- DomainObjects (Aggragate, Value objects compartilhados)
@@ -59,12 +59,11 @@ src
     |   |-- pacientes
     |   |   |-- Hackathon.HealthMed.Pacientes.Api (Controller, entidades, validações)
 tests
-    |-- 
-tests
+    |--  -->
 
 ## :white_check_mark: Tarefas
 - [x] Script SQL
-- [] Documentação
+- [x] Documentação
 - [] Endpoints
     - [] POST | Autenticação médico
     - [] POST | Criação de médico
