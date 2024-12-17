@@ -104,23 +104,18 @@ POST /api/v1/medicos
     - :small_orange_diamond: **nome** | String: Deve ser informado o nome completo e so será permitido apenas letras, em caso de chars especial ou números será retornado um BadRequest
         - Exemplo válido: Gabriel Teste
         - Exemplo inválido: T3ste
-    ----
     - :small_orange_diamond: **email** | String: Deve ser informado um e-mail válido
         - Exemplo válido: teste@exemplo.com
         - Exemplo inválido: teste@exemplo
-    ----
     - :small_orange_diamond: **cpf** | String: Deve ser informado um número de cpf válido sem pontos e traço
         - Exemplo válido: 21644957051
         - Exemplo inválido: 216.449.570-51
-    ----
     - :small_orange_diamond: **crm** | String: Só será permitido numeros, com número exato de 6 chars
         - Exemplo válido: 1456214
         - Exemplo inválido: 154e45
-    ----
     - :small_orange_diamond: **senha** | String: Deve ser informado a senha contendo no mínimo 8 chars, 1 letra maiúscula, 1 letra minúscula, números e char especial
         - Exemplo válido: Teste@123
         - Exemplo inválido: Teste
-    ----
 
 - #### Exemplo Request
     - ##### Válido
@@ -159,8 +154,9 @@ POST /api/v1/medicos
 <details>
     <summary>[Listar medicos]</summary>
 
-> [!NOTE]
-> GET /api/v1/medicos?pagina=1
+```http
+GET /api/v1/medicos?pagina=1
+```
 
 - #### Caso de sucesso
     - Será retornado uma objeto tipo PagedList com dados de paginação
@@ -255,19 +251,15 @@ POST /api/v1/pacientes
     - :small_orange_diamond: **nome** | String: Deve ser informado o nome completo e so será permitido apenas letras, em caso de chars especial ou números será retornado um BadRequest
         - Exemplo válido: Gabriel Teste
         - Exemplo inválido: T3ste
-    ----
     - :small_orange_diamond: **email** | String: Deve ser informado um e-mail válido
         - Exemplo válido: teste@exemplo.com
         - Exemplo inválido: teste@exemplo
-    ----
     - :small_orange_diamond: **cpf** | String: Deve ser informado um número de cpf válido sem pontos e traço
         - Exemplo válido: 21644957051
         - Exemplo inválido: 216.449.570-51
-    ----
     - :small_orange_diamond: **senha** | String: Deve ser informado a senha contendo no mínimo 8 chars, 1 letra maiúscula, 1 letra minúscula, números e char especial
         - Exemplo válido: Teste@123
         - Exemplo inválido: Teste
-    ----
 
 - #### Exemplo Request
     - ##### Válido
