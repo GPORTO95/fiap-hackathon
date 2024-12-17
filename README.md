@@ -64,15 +64,15 @@ tests
 ## :white_check_mark: Tarefas
 - [x] Script SQL
 - [x] Documentação
-- [] Endpoints
-    - [] POST | Autenticação médico
-    - [] POST | Criação de médico
-    - [] GET | Médicos paginado
-    - [] GET | Horarios disponiveis por medico
-    - [] POST | Criação paciente
-    - [] POST | Autenticação paciente
-- [] Testes unitários
-- [] CI/CD
+- [ ] Endpoints
+    - [ ] POST | Autenticação médico
+    - [ ] POST | Criação de médico
+    - [ ] GET | Médicos paginado
+    - [ ] GET | Horarios disponiveis por medico
+    - [ ] POST | Criação paciente
+    - [ ] POST | Autenticação paciente
+- [ ] Testes unitários
+- [ ] CI/CD
     
 
 ## :bookmark: Métodos
