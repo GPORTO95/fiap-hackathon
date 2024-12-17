@@ -159,9 +159,8 @@ POST /api/v1/medicos
 <details>
     <summary>[Listar medicos]</summary>
 
-```http
-GET /api/v1/medicos?pagina=1
-```
+> [!NOTE]
+> GET /api/v1/medicos?pagina=1
 
 - #### Caso de sucesso
     - Será retornado uma objeto tipo PagedList com dados de paginação
