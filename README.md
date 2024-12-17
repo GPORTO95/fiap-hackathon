@@ -101,21 +101,13 @@ POST /api/v1/medicos
     - Caso o `crm` informado não seja valido será retornado um BadRequest
 
 - #### Atributos
-    - :small_orange_diamond: **nome** | String: Deve ser informado o nome completo e so será permitido apenas letras, em caso de chars especial ou números será retornado um BadRequest
-        - Exemplo válido: Gabriel Teste
-        - Exemplo inválido: T3ste
-    - :small_orange_diamond: **email** | String: Deve ser informado um e-mail válido
-        - Exemplo válido: teste@exemplo.com
-        - Exemplo inválido: teste@exemplo
-    - :small_orange_diamond: **cpf** | String: Deve ser informado um número de cpf válido sem pontos e traço
-        - Exemplo válido: 21644957051
-        - Exemplo inválido: 216.449.570-51
-    - :small_orange_diamond: **crm** | String: Só será permitido numeros, com número exato de 6 chars
-        - Exemplo válido: 1456214
-        - Exemplo inválido: 154e45
-    - :small_orange_diamond: **senha** | String: Deve ser informado a senha contendo no mínimo 8 chars, 1 letra maiúscula, 1 letra minúscula, números e char especial
-        - Exemplo válido: Teste@123
-        - Exemplo inválido: Teste
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Nome | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
+| Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
+| Cpf | String | Sim | Deve ser informado um cpf válido sem pontos e traço | 21644957051 | 216.449.570-51 |
+| Crm | String | Sim | Só será permitido numeros, com número exato de 6 chars | 1456214 | 154e45 |
+| Senha | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
 
 - #### Exemplo Request
     - ##### Válido
@@ -162,8 +154,10 @@ GET /api/v1/medicos?pagina=1
     - Será retornado uma objeto tipo PagedList com dados de paginação
 
 - #### Query Parametros
-    - :small_orange_diamond:**pagina** | int: Deve ser informado a página posicionada
-    - **pesquisa** | String: Pode ser informado o nome, email ou crm para filtro
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Pagina | Number | Sim | Deve ser informado a página posicionada | 2 | false |
+| Pesquisa | String |Não | Pode ser informado o nome, email ou crm para filtro | João |  |
 
 
 - #### Exemplo Response
@@ -207,6 +201,9 @@ GET /api/v1/medicos/{medicoId}/horarios-disponiveis
 
 - #### Route Parametros
     - :small_orange_diamond:**mmedicoId** | int: Deve ser informado o id do médico
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| MedicoId | Number | Sim | Deve ser informado o Id | 2 | false |
 
 
 - #### Exemplo Response
