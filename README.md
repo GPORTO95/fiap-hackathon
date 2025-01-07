@@ -67,6 +67,11 @@ tests
 - [ ] Estrutura
     - [x] Classes compartilhadas
     - [ ] Value Objects
+        - [x] Nome
+        - [x] Senha
+        - [x] Cpf
+        - [x] Email
+        - [ ] Crm
     - [ ] Entidades
     - [ ] Conexão com banco de dados
 - [ ] Endpoints
