@@ -64,6 +64,11 @@ tests
 ## :white_check_mark: Tarefas
 - [x] Script SQL
 - [x] Documentação
+- [ ] Estrutura
+    - [x] Classes compartilhadas
+    - [ ] Value Objects
+    - [ ] Entidades
+    - [ ] Conexão com banco de dados
 - [ ] Endpoints
     - [ ] POST | Autenticação médico
     - [ ] POST | Criação de médico
