@@ -11,7 +11,7 @@ public sealed record Password
 
     public static Result<Password> Create(string password)
     {
-        if (string.IsNullOrEmpty(password))
+        if (string.IsNullOrWhiteSpace(password))
         {
             return Result.Failure<Password>(PasswordErrors.Empty);
         }
@@ -24,6 +24,11 @@ public sealed record Password
         if (!Regex.IsMatch(@password, @"[a-z]"))
         {
             return Result.Failure<Password>(PasswordErrors.EmptyLowerCase);
+        }
+        
+        if (!Regex.IsMatch(@password, @"[0-9]"))
+        {
+            return Result.Failure<Password>(PasswordErrors.EmptyNumber);
         }
         
         if (!Regex.IsMatch(@password, @"[\W_]"))
@@ -42,6 +47,8 @@ public static class PasswordErrors
     public static readonly Error EmptyUpperCase = Error.Problem("Password.EmptyUpperCase", "Password uppercase is empty");
     
     public static readonly Error EmptyLowerCase = Error.Problem("Password.EmptyLowerCase", "Password lowercase is empty");
+    
+    public static readonly Error EmptyNumber = Error.Problem("Password.EmptyNumber", "Password number is empty");
     
     public static readonly Error EmptySpecialChar = Error.Problem("Password.EmptySpecialChar", "Password especial char is empty");
 }

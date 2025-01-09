@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Hackathon.HealthMed.Kernel.Shared;
 
 namespace Hackathon.HealthMed.Kernel.DomainObjects;
@@ -15,7 +16,7 @@ public sealed record Email
             return Result.Failure<Email>(EmailErrors.Empty);
         }
 
-        if (email.Split('@').Length != 2)
+        if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
         {
             return Result.Failure<Email>(EmailErrors.InvalidFormat);
         }

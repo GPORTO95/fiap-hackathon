@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "building blocks", "building
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Kernel", "scr\building blocks\Hackathon.HealthMed.Kernel\Hackathon.HealthMed.Kernel.csproj", "{25875023-8FFA-431A-9B0A-3EEAC1F62D9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Kernel.UnitTest", "tests\Hackathon.HealthMed.Kernel.UnitTest\Hackathon.HealthMed.Kernel.UnitTest.csproj", "{52F9DC42-ADE8-4D38-8F02-A1286495ECA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{25875023-8FFA-431A-9B0A-3EEAC1F62D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25875023-8FFA-431A-9B0A-3EEAC1F62D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25875023-8FFA-431A-9B0A-3EEAC1F62D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F9DC42-ADE8-4D38-8F02-A1286495ECA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F9DC42-ADE8-4D38-8F02-A1286495ECA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F9DC42-ADE8-4D38-8F02-A1286495ECA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F9DC42-ADE8-4D38-8F02-A1286495ECA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -31,5 +37,6 @@ Global
 		{7D6B2DFA-0931-412F-ADD8-5E260D409F7E} = {99072F92-FCB9-4560-B433-FF037CEEB1E2}
 		{F6DBD6BC-B391-4128-9A78-B4F66AE1525C} = {99072F92-FCB9-4560-B433-FF037CEEB1E2}
 		{25875023-8FFA-431A-9B0A-3EEAC1F62D9D} = {F6DBD6BC-B391-4128-9A78-B4F66AE1525C}
+		{52F9DC42-ADE8-4D38-8F02-A1286495ECA4} = {1044BF72-0AD3-4C9E-B12C-D563478A4002}
 	EndGlobalSection
 EndGlobal

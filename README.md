@@ -82,6 +82,7 @@ tests
     - [ ] POST | Criação paciente
     - [ ] POST | Autenticação paciente
 - [ ] Testes unitários
+    - [x] Value Objects
 - [ ] CI/CD
     
 

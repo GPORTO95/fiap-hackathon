@@ -12,16 +12,13 @@ public sealed record Cpf
 
     public static Result<Cpf> Create(string cpf)
     {
-        if (string.IsNullOrEmpty(cpf))
+        if (string.IsNullOrWhiteSpace(cpf))
         {
-            
+            return Result.Failure<Cpf>(CpfErrors.Empty); 
         }
         
-        if (cpf.Length > 11)
+        if (cpf.Length != 11)
             return Result.Failure<Cpf>(CpfErrors.InvalidLength);
-
-        while (cpf.Length != 11)
-            cpf = '0' + cpf;
 
         var igual = true;
         for (var i = 1; i < 11 && igual; i++)
