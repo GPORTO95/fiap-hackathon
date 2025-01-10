@@ -19,12 +19,12 @@ CREATE TABLE [HorariosMedicos] (
     CONSTRAINT [PK_Horarios] PRIMARY KEY ([Id])
 );
 
-CREATE TABLE [Pacientes] (
+CREATE TABLE [Patients] (
     [Id] uniqueidentifier NOT NULL,
-    [Nome] varchar(50) NOT NULL,
+    [Name] varchar(50) NOT NULL,
     [Email] varchar(100) NOT NULL,
     [Cpf] varchar(11) NOT NULL,
-    [SenhaHash] varchar(100) NOT NULL,
+    [PasswordHash] varchar(100) NOT NULL,
     CONSTRAINT [PK_Pacientes] PRIMARY KEY ([Id])
 );
 
