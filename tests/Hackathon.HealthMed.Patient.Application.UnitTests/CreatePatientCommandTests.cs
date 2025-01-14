@@ -77,21 +77,7 @@ public class CreatePatientCommandTests
     }
     
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenCpfNotUnique()
-    {
-        // Arrange
-        MockCpf(false);
-        
-        // Act
-        Result<Guid> result = await _handler.Handle(Command, default);
-        
-        // Assert
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(PatientErrors.CpfNotUnique);
-    }
-    
-    [Fact]
-    public async Task Handle_Should_ReturnPassword_WhenCpfIsNotValid()
+    public async Task Handle_Should_ReturnError_WhenPassowrdIsNotValid()
     {
         // Arrange
         MockCpf();
@@ -108,6 +94,42 @@ public class CreatePatientCommandTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(PasswordErrors.EmptySpecialChar);
     }
+    
+    [Fact]
+    public async Task Handle_Should_ReturnError_WhenCpfNotUnique()
+    {
+        // Arrange
+        MockCpf(false);
+        
+        // Act
+        Result<Guid> result = await _handler.Handle(Command, default);
+        
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(PatientErrors.CpfNotUnique);
+    }
+
+    [Fact]
+    public async Task Handle_Should_ReturnSuccess_WhenCommandIsValid()
+    {
+        // Arrange
+        MockCpf();
+        
+        // Act
+        var result = await _handler.Handle(Command, default);
+        
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        
+        _patientRepository
+            .Received(1)
+            .Insert(Arg.Any<Domain.Patients.Patient>());
+        
+        _unitOfWork
+            .Received(1)
+            .SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
+    
 
     private void MockCpf(bool isUnique = true)
     {
