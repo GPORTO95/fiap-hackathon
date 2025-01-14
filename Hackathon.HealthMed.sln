@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Infrastructure", "scr\services\patient\Hackathon.HealthMed.Patient.Infrastructure\Hackathon.HealthMed.Patient.Infrastructure.csproj", "{459534C2-077F-4A23-B628-FB0623AF836D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Api.Core", "scr\building blocks\Hackathon.HealthMed.Api.Core\Hackathon.HealthMed.Api.Core.csproj", "{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Api", "scr\services\patient\Hackathon.HealthMed.Patient.Api\Hackathon.HealthMed.Patient.Api.csproj", "{EB3CD001-E35E-49BB-853F-AB788DC470C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{459534C2-077F-4A23-B628-FB0623AF836D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{459534C2-077F-4A23-B628-FB0623AF836D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{459534C2-077F-4A23-B628-FB0623AF836D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3CD001-E35E-49BB-853F-AB788DC470C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3CD001-E35E-49BB-853F-AB788DC470C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3CD001-E35E-49BB-853F-AB788DC470C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3CD001-E35E-49BB-853F-AB788DC470C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +81,7 @@ Global
 		{3B6B9221-FA2D-4079-9687-F2FC24D7C10E} = {74A4AE63-EF27-43F2-9E40-19B6457C9393}
 		{908BF2FF-575D-4AEA-ACD8-1829F3C6545B} = {1044BF72-0AD3-4C9E-B12C-D563478A4002}
 		{459534C2-077F-4A23-B628-FB0623AF836D} = {74A4AE63-EF27-43F2-9E40-19B6457C9393}
+		{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8} = {F6DBD6BC-B391-4128-9A78-B4F66AE1525C}
+		{EB3CD001-E35E-49BB-853F-AB788DC470C1} = {74A4AE63-EF27-43F2-9E40-19B6457C9393}
 	EndGlobalSection
 EndGlobal
