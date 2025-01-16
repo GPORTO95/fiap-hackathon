@@ -45,6 +45,11 @@ internal sealed class CreatePatientCommandHandler(
             return Result.Failure<Guid>(PatientErrors.CpfNotUnique);
         }
 
+        if (!await patientRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken))
+        {
+            return Result.Failure<Guid>(PatientErrors.EmailNotUnique);
+        }
+
         var patient = Domain.Patients.Patient.Create(nameResult.Value, emailResult.Value, cpfResult.Value, passwordResult.Value);
         
         patientRepository.Insert(patient);
