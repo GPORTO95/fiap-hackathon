@@ -108,12 +108,28 @@ public class CreatePatientCommandTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(PatientErrors.CpfNotUnique);
     }
+    
+    [Fact]
+    public async Task Handle_Should_ReturnError_WhenEmailNotUnique()
+    {
+        // Arrange
+        MockCpf();
+        MockEmail(false);
+        
+        // Act
+        Result<Guid> result = await _handler.Handle(Command, default);
+        
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(PatientErrors.EmailNotUnique);
+    }
 
     [Fact]
     public async Task Handle_Should_ReturnSuccess_WhenCommandIsValid()
     {
         // Arrange
         MockCpf();
+        MockEmail();
         
         // Act
         var result = await _handler.Handle(Command, default);
@@ -135,6 +151,13 @@ public class CreatePatientCommandTests
     {
         _patientRepository.IsCpfUniqueAsync(
             Cpf.Create(Command.Cpf).Value, default)
+            .Returns(isUnique);
+    }
+    
+    private void MockEmail(bool isUnique = true)
+    {
+        _patientRepository.IsEmailUniqueAsync(
+                Email.Create(Command.Email).Value, default)
             .Returns(isUnique);
     }
 }
