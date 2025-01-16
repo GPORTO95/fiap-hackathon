@@ -35,8 +35,8 @@ O objetivo desse desafio é criar uma aplicação onde seja possível realizar o
 - **Application.UnitTests**: Testes unitário para classes de comandos, queries e validações
 - **Domain.UnitTests**: Testes unitário para entidades e objetos de valor
 
-## :deciduous_tree: Projeto
-<!-- src
+<!--## :deciduous_tree: Projeto
+ src
     |-- building blocks
     |   |-- Hackathon.HealthMed.Kernel
     |   |   |-- DomainObjects (Aggragate, Value objects compartilhados)
@@ -79,7 +79,7 @@ tests
     - [ ] POST | Criação de médico
     - [ ] GET | Médicos paginado
     - [ ] GET | Horarios disponiveis por medico
-    - [ ] POST | Criação paciente
+    - [x] POST | Criação paciente
     - [ ] POST | Autenticação paciente
 - [ ] Testes unitários
     - [x] Value Objects
@@ -239,7 +239,7 @@ GET /api/v1/medicos/{medicoId}/horarios-disponiveis
     <summary>[Cadastro de pacientes]</summary>
 
 ```http
-POST /api/v1/pacientes
+POST /api/v1/patients
 ```
 
 - #### Caso de sucesso

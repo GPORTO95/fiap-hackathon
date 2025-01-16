@@ -1,8 +1,8 @@
-using AspNetCore.Scalar;
 using Hackathon.HealthMed.Api.Core.Handlers;
 using Hackathon.HealthMed.Patient.Api.Endpoints;
 using Hackathon.HealthMed.Patient.Application;
 using Hackathon.HealthMed.Patient.Infrastructure;
+using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +24,14 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options
+            .WithTheme(ScalarTheme.Mars)
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+            .WithTitle("Hackathon Health and Med");
+        //.WithApiKeyAuthentication(keyOptions => keyOptions.Token);
+    });
 }
 
 // app.UseScalar(options =>
