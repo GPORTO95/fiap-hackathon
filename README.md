@@ -80,7 +80,7 @@ tests
     - [ ] GET | Médicos paginado
     - [ ] GET | Horarios disponiveis por medico
     - [x] POST | Criação paciente
-    - [ ] POST | Autenticação paciente
+    - [x] POST | Autenticação paciente
 - [ ] Testes unitários
     - [x] Value Objects
 - [ ] CI/CD
@@ -250,26 +250,27 @@ POST /api/v1/patients
     - Caso o `cpf` informado já esteja registrado será retornado um BadRequest
 
 - #### Validação de dados
-    - Caso o `nome` informado não seja valido será retornado um BadRequest
+    - Caso o `name` informado não seja valido será retornado um BadRequest
     - Caso o `email` informado não seja valido será retornado um BadRequest
     - Caso o `cpf` informado não seja valido será retornado um BadRequest
+    - Caso o `password` informado não seja valido será retornado um BadRequest
 
 - #### Atributos
 | Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
 |----|----|----|----|----|----|
-| Nome | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
+| Name | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
 | Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
 | Cpf | String | Sim | Deve ser informado um cpf válido sem pontos e traço | 21644957051 | 216.449.570-51 |
-| Senha | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
+| Passoword | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
 
 - #### Exemplo Request
     - ##### Válido
     ```json
     {
-        "nome": "Gabriel Porto",
+        "name": "Gabriel Porto",
         "email": "gabriel.porto@teste.com",
         "cpf": "21644957051",
-        "senha": "Teste123*"
+        "password": "Teste123*"
     }
     ```
     - ##### Response - Será retornado um Guid com o Id do paciente
@@ -292,6 +293,49 @@ POST /api/v1/patients
         "title": "Nome.NomeIncompleto",
         "status": 400,
         "detail": "Informe o nome completo"
+    }
+    ```
+</details>
+<details>
+    <summary>[Login de pacientes]</summary>
+
+```http
+POST /api/v1/patients/login
+```
+
+- #### Caso de sucesso
+    - Será retornado um status code 200 com token
+
+
+- #### Validação de dados
+    - Caso o `email` informado não seja valido será retornado um BadRequest
+    - Caso o `password` informado não seja valido será retornado um BadRequest
+
+- #### Atributos
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
+| Password | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
+
+- #### Exemplo Request
+    - ##### Válido
+    ```json
+    {
+        "email": "gabriel.porto@teste.com",
+        "password": "Teste123*"
+    }
+    ```
+    - ##### Response - Será retornado um Token
+    ```
+    "28eb0baa-e67a-4f64-86e1-cfa1326301c6"
+    ```
+    - ##### Validação - Password inválido
+    ```json
+    {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        "title": "Password.Empty",
+        "status": 400,
+        "detail": "Password is empty"
     }
     ```
 </details>
