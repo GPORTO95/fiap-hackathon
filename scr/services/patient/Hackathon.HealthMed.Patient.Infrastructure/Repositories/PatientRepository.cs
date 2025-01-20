@@ -12,6 +12,18 @@ internal sealed class PatientRepository(ApplicationDbContext context) : IPatient
         return !await context.Patients.AnyAsync(p => p.Cpf == cpf, cancellationToken);
     }
 
+    public async Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default)
+    {
+        return !await context.Patients.AnyAsync(p => p.Email == email, cancellationToken);
+    }
+
+    public async Task<Domain.Patients.Patient?> LoginAsync(Email email, Password password, CancellationToken cancellationToken = default)
+    {
+        return await context.Patients
+            .Where(p => p.Email == email && p.Password == password)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public void Insert(Domain.Patients.Patient patient)
     {
         context.Patients.Add(patient);

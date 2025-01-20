@@ -5,10 +5,10 @@ namespace Hackathon.HealthMed.Patient.Domain.Patients;
 
 public sealed class Patient : Entity
 {
-    protected Patient()
+    public Patient()
     { }
     
-    private Patient(Guid id, Name name, Email email, Cpf cpf, Password password) : base(id)
+    public Patient(Guid id, Name name, Email email, Cpf cpf, Password password) : base(id)
     {
         Name = name;
         Email = email;

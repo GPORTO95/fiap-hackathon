@@ -11,4 +11,8 @@ public static class PatientErrors
     public static Error EmailNotUnique = Error.Conflict(
         "Patients.EmailNotUnique",
         "The provided email is not unique");
+    
+    public static readonly Error LoginInvalid = Error.Problem(
+        "Patient.LoginInvalid", 
+        "Email or password informed is invalid");
 }

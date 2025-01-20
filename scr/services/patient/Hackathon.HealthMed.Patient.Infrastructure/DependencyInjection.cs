@@ -1,6 +1,8 @@
 using Hackathon.HealthMed.Kernel.Data;
 using Hackathon.HealthMed.Kernel.Shared;
+using Hackathon.HealthMed.Patient.Application.Abstractions.Authentication;
 using Hackathon.HealthMed.Patient.Domain.Patients;
+using Hackathon.HealthMed.Patient.Infrastructure.Authentication;
 using Hackathon.HealthMed.Patient.Infrastructure.Data;
 using Hackathon.HealthMed.Patient.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,5 +30,9 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IPatientRepository, PatientRepository>();
+
+        services.Configure<JwtOptions>(
+            configuration.GetSection("Jwt"));
+        services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }

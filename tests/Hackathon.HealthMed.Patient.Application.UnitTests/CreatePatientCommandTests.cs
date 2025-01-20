@@ -80,8 +80,6 @@ public class CreatePatientCommandTests
     public async Task Handle_Should_ReturnError_WhenPassowrdIsNotValid()
     {
         // Arrange
-        MockCpf();
-        
         CreatePatientCommand invalidCommand = Command with
         {
             Password = "Teste123"
