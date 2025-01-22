@@ -1,0 +1,6 @@
+@Hackathon.HealthMed.Doctors.Api_HostAddress = http://localhost:5262
+
+GET {{Hackathon.HealthMed.Doctors.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

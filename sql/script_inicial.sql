@@ -1,12 +1,12 @@
 USE PublicEnterpriseDb
 
-CREATE TABLE [Medicos] (
+CREATE TABLE [Doctors] (
     [Id] uniqueidentifier NOT NULL,
-    [Nome] varchar(50) NOT NULL,
+    [Name] varchar(50) NOT NULL,
     [Email] varchar(100) NOT NULL,
     [Cpf] varchar(11) NOT NULL,
+    [PasswordHash] varchar(100) NOT NULL,
     [Crm] varchar(7) NOT NULL,
-    [SenhaHash] varchar(100) NOT NULL,
     CONSTRAINT [PK_Medicos] PRIMARY KEY ([Id])
 );
 

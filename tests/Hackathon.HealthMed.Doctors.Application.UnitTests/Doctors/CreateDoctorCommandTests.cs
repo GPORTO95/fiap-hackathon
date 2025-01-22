@@ -1,35 +1,35 @@
 using FluentAssertions;
+using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
+using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Kernel.Data;
 using Hackathon.HealthMed.Kernel.DomainObjects;
 using Hackathon.HealthMed.Kernel.Shared;
-using Hackathon.HealthMed.Patients.Application.Patients.Create;
-using Hackathon.HealthMed.Patients.Domain.Patients;
 using NSubstitute;
 
-namespace Hackathon.HealthMed.Patients.Application.UnitTests;
+namespace Hackathon.HealthMed.Doctors.Application.UnitTests.Doctors;
 
-public class CreatePatientCommandTests
+public class CreateDoctorCommandTests
 {
-    private readonly CreatePatientCommand Command = new("Test", "test@gmail.com", "73723110045", "Wtf1203*");
+    private readonly CreateDoctorCommand Command = new("Test", "test@gmail.com", "73723110045", "123456", "Teste@123");
 
-    private readonly IPatientRepository _patientRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IDoctorRepository _doctorRepositoryMock;
+    private readonly IUnitOfWork _unitOfWorkMock;
 
-    private readonly CreatePatientCommandHandler _handler;
+    private readonly CreateDoctorCommandHandler _handler;
 
-    public CreatePatientCommandTests()
+    public CreateDoctorCommandTests()
     {
-        _patientRepository = Substitute.For<IPatientRepository>();
-        _unitOfWork = Substitute.For<IUnitOfWork>();
+        _doctorRepositoryMock = Substitute.For<IDoctorRepository>();
+        _unitOfWorkMock = Substitute.For<IUnitOfWork>();
         
-        _handler = new CreatePatientCommandHandler(_patientRepository, _unitOfWork);
+        _handler = new CreateDoctorCommandHandler(_doctorRepositoryMock, _unitOfWorkMock);
     }
-
+    
     [Fact]
     public async Task Handle_Should_ReturnError_WhenNameIsNotValid()
     {
         // Arrange
-        CreatePatientCommand invalidCommand = Command with
+        var invalidCommand = Command with
         {
             Name = string.Empty
         };
@@ -46,7 +46,7 @@ public class CreatePatientCommandTests
     public async Task Handle_Should_ReturnError_WhenEmailIsNotValid()
     {
         // Arrange
-        CreatePatientCommand invalidCommand = Command with
+        var invalidCommand = Command with
         {
             Email = "test"
         };
@@ -63,7 +63,7 @@ public class CreatePatientCommandTests
     public async Task Handle_Should_ReturnError_WhenCpfIsNotValid()
     {
         // Arrange
-        CreatePatientCommand invalidCommand = Command with
+        var invalidCommand = Command with
         {
             Cpf = "11122233344"
         };
@@ -80,7 +80,7 @@ public class CreatePatientCommandTests
     public async Task Handle_Should_ReturnError_WhenPassowrdIsNotValid()
     {
         // Arrange
-        CreatePatientCommand invalidCommand = Command with
+        var invalidCommand = Command with
         {
             Password = "Teste123"
         };
@@ -94,6 +94,23 @@ public class CreatePatientCommandTests
     }
     
     [Fact]
+    public async Task Handle_Should_ReturnError_WhenCrmIsInvalid()
+    {
+        // Arrange
+        var invalidCommand = Command with
+        {
+            Crm = "1234"
+        };
+        
+        // Act
+        Result<Guid> result = await _handler.Handle(invalidCommand, default);
+        
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(CrmErrors.InvalidFormat);
+    }
+    
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenCpfNotUnique()
     {
         // Arrange
@@ -104,7 +121,7 @@ public class CreatePatientCommandTests
         
         // Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(PatientErrors.CpfNotUnique);
+        result.Error.Should().Be(DoctorErrors.CpfNotUnique);
     }
     
     [Fact]
@@ -119,7 +136,7 @@ public class CreatePatientCommandTests
         
         // Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(PatientErrors.EmailNotUnique);
+        result.Error.Should().Be(DoctorErrors.EmailNotUnique);
     }
 
     [Fact]
@@ -135,26 +152,25 @@ public class CreatePatientCommandTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         
-        _patientRepository
+        _doctorRepositoryMock
             .Received(1)
-            .Insert(Arg.Any<Domain.Patients.Patient>());
+            .Insert(Arg.Any<Doctor>());
         
-        _unitOfWork
+        await _unitOfWorkMock
             .Received(1)
             .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
     
-
     private void MockCpf(bool isUnique = true)
     {
-        _patientRepository.IsCpfUniqueAsync(
-            Cpf.Create(Command.Cpf).Value, default)
+        _doctorRepositoryMock.IsCpfUniqueAsync(
+                Cpf.Create(Command.Cpf).Value, default)
             .Returns(isUnique);
     }
     
     private void MockEmail(bool isUnique = true)
     {
-        _patientRepository.IsEmailUniqueAsync(
+        _doctorRepositoryMock.IsEmailUniqueAsync(
                 Email.Create(Command.Email).Value, default)
             .Returns(isUnique);
     }

@@ -1,12 +1,12 @@
 using FluentAssertions;
 using Hackathon.HealthMed.Kernel.DomainObjects;
 using Hackathon.HealthMed.Kernel.Shared;
-using Hackathon.HealthMed.Patient.Application.Abstractions.Authentication;
-using Hackathon.HealthMed.Patient.Application.Patients.Login;
-using Hackathon.HealthMed.Patient.Domain.Patients;
+using Hackathon.HealthMed.Patients.Application.Abstractions.Authentication;
+using Hackathon.HealthMed.Patients.Application.Patients.Login;
+using Hackathon.HealthMed.Patients.Domain.Patients;
 using NSubstitute;
 
-namespace Hackathon.HealthMed.Patient.Application.UnitTests;
+namespace Hackathon.HealthMed.Patients.Application.UnitTests;
 
 public class LoginPatientCommandTests
 {
@@ -90,7 +90,7 @@ public class LoginPatientCommandTests
     private void MockLogin(bool exist = true)
     {
         Domain.Patients.Patient? patient = exist 
-            ? new Domain.Patients.Patient(
+            ? new Patient(
                 Guid.NewGuid(), 
                 Name.Create("Gabriel").Value, 
                 Email.Create("test@test.com").Value, 

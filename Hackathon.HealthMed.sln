@@ -17,21 +17,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Kernel.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "patient", "patient", "{74A4AE63-EF27-43F2-9E40-19B6457C9393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Domain", "scr\services\patient\Hackathon.HealthMed.Patient.Domain\Hackathon.HealthMed.Patient.Domain.csproj", "{9F304328-DF74-49E7-8010-7A69612CA39F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patients.Domain", "scr\services\patient\Hackathon.HealthMed.Patients.Domain\Hackathon.HealthMed.Patients.Domain.csproj", "{9F304328-DF74-49E7-8010-7A69612CA39F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Application", "scr\services\patient\Hackathon.HealthMed.Patient.Application\Hackathon.HealthMed.Patient.Application.csproj", "{3B6B9221-FA2D-4079-9687-F2FC24D7C10E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patients.Application", "scr\services\patient\Hackathon.HealthMed.Patients.Application\Hackathon.HealthMed.Patients.Application.csproj", "{3B6B9221-FA2D-4079-9687-F2FC24D7C10E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Application.UnitTests", "tests\Hackathon.HealthMed.Patient.Application.UnitTests\Hackathon.HealthMed.Patient.Application.UnitTests.csproj", "{908BF2FF-575D-4AEA-ACD8-1829F3C6545B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Infrastructure", "scr\services\patient\Hackathon.HealthMed.Patient.Infrastructure\Hackathon.HealthMed.Patient.Infrastructure.csproj", "{459534C2-077F-4A23-B628-FB0623AF836D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patients.Infrastructure", "scr\services\patient\Hackathon.HealthMed.Patients.Infrastructure\Hackathon.HealthMed.Patients.Infrastructure.csproj", "{459534C2-077F-4A23-B628-FB0623AF836D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Api.Core", "scr\building blocks\Hackathon.HealthMed.Api.Core\Hackathon.HealthMed.Api.Core.csproj", "{9ED66A71-E510-4D85-8920-FDE2B0BCF6E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patient.Api", "scr\services\patient\Hackathon.HealthMed.Patient.Api\Hackathon.HealthMed.Patient.Api.csproj", "{EB3CD001-E35E-49BB-853F-AB788DC470C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Patients.Api", "scr\services\patient\Hackathon.HealthMed.Patients.Api\Hackathon.HealthMed.Patients.Api.csproj", "{EB3CD001-E35E-49BB-853F-AB788DC470C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doctors", "doctors", "{EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Domain", "scr\services\doctors\Hackathon.HealthMed.Doctors.Domain\Hackathon.HealthMed.Doctors.Domain.csproj", "{C4E1DB17-94FE-4538-8AB4-85E8CC109380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Application", "scr\services\doctors\Hackathon.HealthMed.Doctors.Application\Hackathon.HealthMed.Doctors.Application.csproj", "{EAE7300D-4B0C-407C-8177-2707663A403A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Infrastructure", "scr\services\doctors\Hackathon.HealthMed.Doctors.Infrastructure\Hackathon.HealthMed.Doctors.Infrastructure.csproj", "{301639CC-48D8-445C-A1AF-0BFF746D19AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Api", "scr\services\doctors\Hackathon.HealthMed.Doctors.Api\Hackathon.HealthMed.Doctors.Api.csproj", "{DBC7EC41-619B-4D1B-A867-CE71F595E779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Domain.UnitTests", "tests\Hackathon.HealthMed.Doctors.Domain.UnitTests\Hackathon.HealthMed.Doctors.Domain.UnitTests.csproj", "{7A1B6F19-624B-432E-A42F-D586E8516CCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.HealthMed.Doctors.Application.UnitTests", "tests\Hackathon.HealthMed.Doctors.Application.UnitTests\Hackathon.HealthMed.Doctors.Application.UnitTests.csproj", "{110029D9-CC8A-47B4-8F25-A0003F1559CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +85,26 @@ Global
 		{C4E1DB17-94FE-4538-8AB4-85E8CC109380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4E1DB17-94FE-4538-8AB4-85E8CC109380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4E1DB17-94FE-4538-8AB4-85E8CC109380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE7300D-4B0C-407C-8177-2707663A403A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE7300D-4B0C-407C-8177-2707663A403A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE7300D-4B0C-407C-8177-2707663A403A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE7300D-4B0C-407C-8177-2707663A403A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{301639CC-48D8-445C-A1AF-0BFF746D19AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301639CC-48D8-445C-A1AF-0BFF746D19AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301639CC-48D8-445C-A1AF-0BFF746D19AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301639CC-48D8-445C-A1AF-0BFF746D19AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC7EC41-619B-4D1B-A867-CE71F595E779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC7EC41-619B-4D1B-A867-CE71F595E779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC7EC41-619B-4D1B-A867-CE71F595E779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC7EC41-619B-4D1B-A867-CE71F595E779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A1B6F19-624B-432E-A42F-D586E8516CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A1B6F19-624B-432E-A42F-D586E8516CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A1B6F19-624B-432E-A42F-D586E8516CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A1B6F19-624B-432E-A42F-D586E8516CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{110029D9-CC8A-47B4-8F25-A0003F1559CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{110029D9-CC8A-47B4-8F25-A0003F1559CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{110029D9-CC8A-47B4-8F25-A0003F1559CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{110029D9-CC8A-47B4-8F25-A0003F1559CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +123,10 @@ Global
 		{EB3CD001-E35E-49BB-853F-AB788DC470C1} = {74A4AE63-EF27-43F2-9E40-19B6457C9393}
 		{EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6} = {7D6B2DFA-0931-412F-ADD8-5E260D409F7E}
 		{C4E1DB17-94FE-4538-8AB4-85E8CC109380} = {EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6}
+		{EAE7300D-4B0C-407C-8177-2707663A403A} = {EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6}
+		{301639CC-48D8-445C-A1AF-0BFF746D19AA} = {EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6}
+		{DBC7EC41-619B-4D1B-A867-CE71F595E779} = {EFF9EDFB-6586-4DC3-B27C-02FBDE44D3C6}
+		{7A1B6F19-624B-432E-A42F-D586E8516CCF} = {1044BF72-0AD3-4C9E-B12C-D563478A4002}
+		{110029D9-CC8A-47B4-8F25-A0003F1559CB} = {1044BF72-0AD3-4C9E-B12C-D563478A4002}
 	EndGlobalSection
 EndGlobal

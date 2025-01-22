@@ -9,11 +9,11 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
-        <PackageReference Include="FluentAssertions" Version="8.0.0-rc.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1"/>
-        <PackageReference Include="NSubstitute" Version="5.3.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
         <PackageReference Include="xunit" Version="2.9.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
+		<PackageReference Include="NSubstitute" Version="5.3.0" />
+		<PackageReference Include="FluentAssertions" Version="8.0.0-rc.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\scr\services\patient\Hackathon.HealthMed.Patients.Application\Hackathon.HealthMed.Patients.Application.csproj" />
+      <ProjectReference Include="..\..\scr\services\doctors\Hackathon.HealthMed.Doctors.Application\Hackathon.HealthMed.Doctors.Application.csproj" />
     </ItemGroup>
 
 </Project>

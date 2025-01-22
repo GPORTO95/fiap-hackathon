@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Hackathon.HealthMed.Patient.Application</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\building blocks\Hackathon.HealthMed.Api.Core\Hackathon.HealthMed.Api.Core.csproj" />
+		<ProjectReference Include="..\Hackathon.HealthMed.Patients.Domain\Hackathon.HealthMed.Patients.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Hackathon.HealthMed.Patient.Application.UnitTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+</Project>
