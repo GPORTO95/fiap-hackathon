@@ -71,12 +71,12 @@ tests
         - [x] Senha
         - [x] Cpf
         - [x] Email
-        - [ ] Crm
+        - [x] Crm
     - [ ] Entidades
     - [ ] Conexão com banco de dados
 - [ ] Endpoints
     - [ ] POST | Autenticação médico
-    - [ ] POST | Criação de médico
+    - [x] POST | Criação de médico
     - [ ] GET | Médicos paginado
     - [ ] GET | Horarios disponiveis por medico
     - [x] POST | Criação paciente
@@ -94,7 +94,7 @@ tests
     <summary>[Cadastro de médico]</summary>
 
 ```http
-POST /api/v1/medicos
+POST /api/v1/doctors
 ```
 
 - #### Caso de sucesso
@@ -103,10 +103,9 @@ POST /api/v1/medicos
 - #### Caso de uso
     - Caso o `email` informado já esteja registrado será retornado um BadRequest
     - Caso o `cpf` informado já esteja registrado será retornado um BadRequest
-    - Caso o `crm` informado já esteja registrado será retornado um BadRequest
 
 - #### Validação de dados
-    - Caso o `nome` informado não seja valido será retornado um BadRequest
+    - Caso o `name` informado não seja valido será retornado um BadRequest
     - Caso o `email` informado não seja valido será retornado um BadRequest
     - Caso o `cpf` informado não seja valido será retornado um BadRequest
     - Caso o `crm` informado não seja valido será retornado um BadRequest
@@ -114,21 +113,21 @@ POST /api/v1/medicos
 - #### Atributos
 | Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
 |----|----|----|----|----|----|
-| Nome | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
+| Name | String | Sim | Deve ser informado o nome completo com apenas letras | Gabriel Teste | T3st#
 | Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
 | Cpf | String | Sim | Deve ser informado um cpf válido sem pontos e traço | 21644957051 | 216.449.570-51 |
-| Crm | String | Sim | Só será permitido numeros, com número exato de 6 chars | 1456214 | 154e45 |
-| Senha | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
+| Crm | String | Sim | Só será permitido numeros, com número entre 6 e 7 | 1456214 | 154e45 |
+| Password | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
 
 - #### Exemplo Request
     - ##### Válido
     ```json
     {
-        "nome": "Gabriel Porto",
+        "name": "Gabriel Porto",
         "email": "gabriel.porto@teste.com",
         "cpf": "21644957051",
         "crm": "1456214",
-        "senha": "Teste123*"
+        "password": "Teste123*"
     }
     ```
     - ##### Response - Será retornado um Guid com o Id do médico
