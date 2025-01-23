@@ -17,9 +17,6 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // services.AddMediatR(config =>
-        //     config.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
-
         string? connectionString = configuration.GetConnectionString("Database");
         Ensure.NotNullOrEmpty(connectionString);
 
@@ -30,9 +27,10 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IPatientRepository, PatientRepository>();
-
-        services.Configure<JwtOptions>(
-            configuration.GetSection("Jwt"));
+        
+        var section = configuration.GetSection("Jwt");
+        services.Configure<JwtOptions>(section);
+        
         services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }

@@ -1,13 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Hackathon.HealthMed.Doctors.Application.Abstractions.Authentication;
+using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Kernel.Shared;
-using Hackathon.HealthMed.Patients.Application.Abstractions.Authentication;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace Hackathon.HealthMed.Patients.Infrastructure.Authentication;
+namespace Hackathon.HealthMed.Doctors.Infrastructure.Authentication;
 
 internal sealed class JwtProvider : IJwtProvider
 {
@@ -18,12 +19,12 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public string Generate(Domain.Patients.Patient patient)
+    public string Generate(Doctor doctor)
     {
         var claims = new Claim[]
         {
-            new(JwtRegisteredClaimNames.Sub, patient.Id.ToString()),
-            new(JwtRegisteredClaimNames.Email, patient.Email.Value),
+            new(JwtRegisteredClaimNames.Sub, doctor.Id.ToString()),
+            new(JwtRegisteredClaimNames.Email, doctor.Email.Value),
         };
 
         var signingCredentials = new SigningCredentials(

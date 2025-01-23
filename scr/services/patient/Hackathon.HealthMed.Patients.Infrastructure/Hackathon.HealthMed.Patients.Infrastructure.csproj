@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\building blocks\Hackathon.HealthMed.Api.Core\Hackathon.HealthMed.Api.Core.csproj" />
       <ProjectReference Include="..\Hackathon.HealthMed.Patients.Application\Hackathon.HealthMed.Patients.Application.csproj" />
     </ItemGroup>
 

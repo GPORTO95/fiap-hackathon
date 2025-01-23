@@ -1,4 +1,4 @@
-namespace Hackathon.HealthMed.Patients.Infrastructure.Authentication;
+﻿namespace Hackathon.HealthMed.Kernel.Shared;
 
 public class JwtOptions
 {

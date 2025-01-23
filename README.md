@@ -75,7 +75,7 @@ tests
     - [ ] Entidades
     - [ ] Conexão com banco de dados
 - [ ] Endpoints
-    - [ ] POST | Autenticação médico
+    - [x] POST | Autenticação médico
     - [x] POST | Criação de médico
     - [ ] GET | Médicos paginado
     - [ ] GET | Horarios disponiveis por medico
@@ -90,6 +90,49 @@ tests
 > [!IMPORTANT]
 > Propriedades marcadas com o ícone :small_orange_diamond: são de preenchimento obrigatório nos atributos
 
+<details>
+    <summary>[Login de medicos]</summary>
+
+```http
+POST /api/v1/doctors/login
+```
+
+- #### Caso de sucesso
+    - Será retornado um status code 200 com token
+
+
+- #### Validação de dados
+    - Caso o `email` informado não seja valido será retornado um BadRequest
+    - Caso o `password` informado não seja valido será retornado um BadRequest
+
+- #### Atributos
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Email | String | Sim | Deve ser informado um e-mail válido | teste@gmail.com | teste@gmail |
+| Password | String | Sim | Deve ser informado no mínimo 8 chars, 1 letra maiúscula, 1 letra min´´uscula, 1 numero e 1 char especial | Teste@123 | Teste
+
+- #### Exemplo Request
+    - ##### Válido
+    ```json
+    {
+        "email": "gabriel.porto@teste.com",
+        "password": "Teste123*"
+    }
+    ```
+    - ##### Response - Será retornado um Token
+    ```
+    "28eb0baa-e67a-4f64-86e1-cfa1326301c6"
+    ```
+    - ##### Validação - Password inválido
+    ```json
+    {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        "title": "Password.Empty",
+        "status": 400,
+        "detail": "Password is empty"
+    }
+    ```
+</details>
 <details>
     <summary>[Cadastro de médico]</summary>
 

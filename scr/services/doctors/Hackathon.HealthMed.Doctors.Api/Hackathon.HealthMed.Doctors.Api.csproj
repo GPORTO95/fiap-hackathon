@@ -7,11 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\building blocks\Hackathon.HealthMed.Api.Core\Hackathon.HealthMed.Api.Core.csproj" />
       <ProjectReference Include="..\Hackathon.HealthMed.Doctors.Infrastructure\Hackathon.HealthMed.Doctors.Infrastructure.csproj" />
     </ItemGroup>
 

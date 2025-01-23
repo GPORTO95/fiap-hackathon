@@ -1,8 +1,10 @@
-using Hackathon.HealthMed.Doctors.Domain.Doctors;
-using Hackathon.HealthMed.Doctors.Infrastructure.Data;
-using Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 using Hackathon.HealthMed.Kernel.Data;
 using Hackathon.HealthMed.Kernel.Shared;
+using Hackathon.HealthMed.Doctors.Application.Abstractions.Authentication;
+using Hackathon.HealthMed.Doctors.Domain.Doctors;
+using Hackathon.HealthMed.Doctors.Infrastructure.Authentication;
+using Hackathon.HealthMed.Doctors.Infrastructure.Data;
+using Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +28,9 @@ public static class DependencyInjection
 
         services.AddScoped<IDoctorRepository, DoctorRepository>();
 
-        // services.Configure<JwtOptions>(
-        //     configuration.GetSection("Jwt"));
-        // services.AddScoped<IJwtProvider, JwtProvider>();
+        var section = configuration.GetSection("Jwt");
+        services.Configure<JwtOptions>(section);
+
+        services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }
