@@ -10,13 +10,14 @@ CREATE TABLE [Doctors] (
     CONSTRAINT [PK_Medicos] PRIMARY KEY ([Id])
 );
 
-CREATE TABLE [HorariosMedicos] (
+CREATE TABLE [DoctorSchedule] (
     [Id] uniqueidentifier NOT NULL,
-    [MedicoId] uniqueidentifier NOT NULL,
-    [Data] DATE NOT NULL,
-    [Horario] TIME NOT NULL,
-    [Disponivel] BIT NOT NULL,
-    CONSTRAINT [PK_Horarios] PRIMARY KEY ([Id])
+    [DoctorId] uniqueidentifier NOT NULL,
+    [Date] DATE NOT NULL,
+    [Start] TIME NOT NULL,
+    [End] TIME NOT NULL,
+    [Available] BIT NOT NULL,
+    CONSTRAINT [PK_Schedule] PRIMARY KEY ([Id])
 );
 
 CREATE TABLE [Patients] (
