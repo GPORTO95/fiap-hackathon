@@ -64,21 +64,21 @@ tests
 ## :white_check_mark: Tarefas
 - [x] Script SQL
 - [x] Documentação
-- [ ] Estrutura
+- [x] Estrutura
     - [x] Classes compartilhadas
-    - [ ] Value Objects
+    - [x] Value Objects
         - [x] Nome
         - [x] Senha
         - [x] Cpf
         - [x] Email
         - [x] Crm
-    - [ ] Entidades
-    - [ ] Conexão com banco de dados
+    - [x] Entidades
+    - [x] Conexão com banco de dados
 - [ ] Endpoints
     - [x] POST | Autenticação médico
     - [x] POST | Criação de médico
-    - [ ] GET | Médicos paginado
-    - [ ] GET | Horarios disponiveis por medico
+    - [x] POST | Criação de horário disponível de médico
+    - [ ] POST | Agendamento de paciente e médico
     - [x] POST | Criação paciente
     - [x] POST | Autenticação paciente
 - [ ] Testes unitários
@@ -193,6 +193,66 @@ POST /api/v1/doctors
         "title": "Nome.NomeIncompleto",
         "status": 400,
         "detail": "Informe o nome completo"
+    }
+    ```
+</details>
+<details>
+    <summary>[Cadastro de horarios de médico]</summary>
+
+```http
+POST /api/v1/doctors/schedule
+```
+
+- #### Caso de sucesso
+    - Será retornado um status code 200 com o Id do horario cadastrado
+
+- #### Caso de uso
+    - Caso o `Id` informado não esteja registrado será retornado um NotFound
+    - Caso o `date` informado seja uma data menor que a atual, será retornado um BadRequest
+    - Caso o `start` ou `end` informado entre em conflito com algum horário cadastrado, será retornado um Conflict
+    - Caso o `start` seja maior que o `end` será retornado um BadRequest
+    - Caso o `start` ou `end` seja uma data inválida será retornado um BadRequest
+
+- #### Atributos
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| DoctorId | Guid | Sim | Deve ser informado o Id do doutor | 273b548a-63bc-424f-bb6a-0f60052c0f7a | T3st#
+| Date | DateOnly | Sim | Deve ser informado uma data válida | "2025-01-01" | "01-12-2029" |
+| Start | TimeSpan | Sim | Deve ser informado um horário válido | "09:23" | "15" |
+| End | TimeSpan | Sim | Deve ser informado um horário válido | "11:00" | "25" |
+
+- #### Exemplo Request
+    - ##### Válido
+    ```json
+    {
+        "doctorId": "273b548a-63bc-424f-bb6a-0f60052c0f7a",
+        "date": "2025-01-31",
+        "start": "09:42",
+        "end": "10:00"
+    }
+    ```
+    - ##### Response - Será retornado um Guid com o Id do médico
+    ```
+    "28eb0baa-e67a-4f64-86e1-cfa1326301c6"
+    ```
+     - ##### Caso de uso - Doutor não encontrado
+    ```json
+    {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+        "title": "Doctor.NotFound",
+        "status": 404,
+        "detail": "Doctor not found",
+        "traceId": "00-73e350dc2606f3a74e699e599ddcd1fa-cb54e2e1ccc57acd-00"
+    }
+    ```
+    - ##### Caso de uso - Horario já cadastrado
+    ```json
+    {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.8",
+        "title": "DoctorSchedule.ScheduleIsNotFree",
+        "status": 409,
+        "detail": "Doctor schedule is not free.",
+        "traceId": "00-3bc071319f22599bb89ade8d0544533a-fe9df2d0d7610588-00"
     }
     ```
 </details>
