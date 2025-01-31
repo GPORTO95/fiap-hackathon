@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IDoctorRepository, DoctorRepository>();
+        services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 
         var section = configuration.GetSection("Jwt");
         services.Configure<JwtOptions>(section);

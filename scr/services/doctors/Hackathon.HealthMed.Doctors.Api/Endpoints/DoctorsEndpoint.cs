@@ -1,4 +1,5 @@
 using Hackathon.HealthMed.Api.Core.Extensions;
+using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Login;
 using Hackathon.HealthMed.Kernel.Shared;
@@ -22,6 +23,16 @@ public static class DoctorsEndpoint
         
         app.MapPost("api/doctors", async (
             CreateDoctorCommand command,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result<Guid> result = await sender.Send(command, CancellationToken);
+
+            return result.Match(Results.Ok, CustomResults.Problem);
+        });
+        
+        app.MapPost("api/doctors/schedule", async (
+            AddScheduleDoctorCommand command,
             ISender sender,
             CancellationToken CancellationToken) =>
         {

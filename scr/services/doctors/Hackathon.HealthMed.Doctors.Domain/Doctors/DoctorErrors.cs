@@ -4,6 +4,10 @@ namespace Hackathon.HealthMed.Doctors.Domain.Doctors;
 
 public static class DoctorErrors
 {
+    public static Error NotFound = Error.NotFound(
+        "Doctor.NotFound",
+        "Doctor not found");
+
     public static Error CpfNotUnique = Error.Conflict(
         "Doctor.CpfNotUnique",
         "The provided cpf is not unique");

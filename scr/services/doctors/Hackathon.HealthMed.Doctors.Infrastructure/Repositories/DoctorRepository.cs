@@ -7,6 +7,11 @@ namespace Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 
 internal sealed class DoctorRepository(ApplicationDbContext context) : IDoctorRepository
 {
+    public async Task<bool> ExistByIdAsync(Guid doctorId, CancellationToken cancellationToken = default)
+    {
+        return await context.Doctors.AnyAsync(d => d.Id == doctorId, cancellationToken);
+    }
+
     public async Task<bool> IsCpfUniqueAsync(Cpf cpf, CancellationToken cancellationToken = default)
     {
         return !await context.Doctors.AnyAsync(p => p.Cpf == cpf, cancellationToken);

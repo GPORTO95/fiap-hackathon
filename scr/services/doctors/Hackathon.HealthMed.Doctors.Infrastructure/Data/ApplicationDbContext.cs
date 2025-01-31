@@ -12,6 +12,8 @@ internal sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
     public DbSet<Doctor> Doctors { get; set; }
 
+    public DbSet<DoctorSchedule> DoctorSchedules { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
