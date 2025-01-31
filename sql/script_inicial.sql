@@ -10,7 +10,7 @@ CREATE TABLE [Doctors] (
     CONSTRAINT [PK_Medicos] PRIMARY KEY ([Id])
 );
 
-CREATE TABLE [DoctorSchedule] (
+CREATE TABLE [DoctorSchedules] (
     [Id] uniqueidentifier NOT NULL,
     [DoctorId] uniqueidentifier NOT NULL,
     [Date] DATE NOT NULL,
