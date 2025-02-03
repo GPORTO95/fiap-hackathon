@@ -27,10 +27,19 @@ public sealed class DoctorSchedule
     {
         return new DoctorSchedule(id, time, doctorId);
     }
+
+    public void UpdateSchedule(TimeStampRange time)
+    {
+        Time = time;
+    }
 }
 
 public static class DoctorScheduleErrors
 {
+    public static readonly Error NotFound = Error.NotFound(
+        "DoctorSchedule.NotFound",
+        "Doctor schedule not found.");
+
     public static readonly Error ScheduleIsNotFree = Error.Conflict(
         "DoctorSchedule.ScheduleIsNotFree",
         "Doctor schedule is not free.");

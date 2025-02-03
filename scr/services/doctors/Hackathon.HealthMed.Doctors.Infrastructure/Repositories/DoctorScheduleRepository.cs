@@ -1,12 +1,17 @@
 ﻿using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Doctors.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 
 internal sealed class DoctorScheduleRepository(ApplicationDbContext context) : IDoctorScheduleRepository
 {
+    public async Task<DoctorSchedule?> GetByIdAsync(Guid doctorScheduleId, CancellationToken cancellationToken = default)
+    {
+        return await context.DoctorSchedules
+            .FirstOrDefaultAsync(ds => ds.Id == doctorScheduleId, cancellationToken);
+    }
+
     public async Task<bool> ScheduleIsFreeAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken cancellationToken = default)
     {
         var formattedDate = date.ToString("yyyy-MM-dd");
@@ -28,5 +33,11 @@ internal sealed class DoctorScheduleRepository(ApplicationDbContext context) : I
     public void Add(DoctorSchedule doctorSchedule)
     {
         context.DoctorSchedules.Add(doctorSchedule);
+    }
+
+
+    public void Update(DoctorSchedule doctorSchedule)
+    {
+        context.DoctorSchedules.Update(doctorSchedule);
     }
 }

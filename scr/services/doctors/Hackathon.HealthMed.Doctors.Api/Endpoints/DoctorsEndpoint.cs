@@ -2,6 +2,7 @@ using Hackathon.HealthMed.Api.Core.Extensions;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Login;
+using Hackathon.HealthMed.Doctors.Application.Doctors.UpdateSchedule;
 using Hackathon.HealthMed.Kernel.Shared;
 using MediatR;
 
@@ -39,6 +40,17 @@ public static class DoctorsEndpoint
             Result<Guid> result = await sender.Send(command, CancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
+        });
+
+        app.MapPut("api/doctors/{doctorScheduleId}/schedule", async (
+            Guid doctorScheduleId,
+            UpdateScheduleDoctorRequest request,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result result = await sender.Send(new UpdateScheduleDoctorCommand(doctorScheduleId, request.Date, request.Start, request.End), CancellationToken);
+
+            return result.Match(Results.NoContent, CustomResults.Problem);
         });
     }
 }

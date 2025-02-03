@@ -18,6 +18,13 @@ internal sealed class AddScheduleDoctorCommandHandler(
 {
     public async Task<Result<Guid>> Handle(AddScheduleDoctorCommand request, CancellationToken cancellationToken)
     {
+        Result<TimeStampRange> rangeResult = TimeStampRange.Create(request.Date, request.Start, request.End);
+
+        if (rangeResult.IsFailure)
+        {
+            return Result.Failure<Guid>(rangeResult.Error);
+        }
+
         if (!await doctorRepository.ExistByIdAsync(request.DoctorId, cancellationToken))
         {
             return Result.Failure<Guid>(DoctorErrors.NotFound);
@@ -26,13 +33,6 @@ internal sealed class AddScheduleDoctorCommandHandler(
         if (!await doctorScheduleRepository.ScheduleIsFreeAsync(request.Date, request.Start, request.End, cancellationToken))
         {
             return Result.Failure<Guid>(DoctorScheduleErrors.ScheduleIsNotFree);
-        }
-
-        Result<TimeStampRange> rangeResult = TimeStampRange.Create(request.Date, request.Start, request.End);
-
-        if (rangeResult.IsFailure)
-        {
-            return Result.Failure<Guid>(rangeResult.Error);
         }
 
         DoctorSchedule schedule = DoctorSchedule.Create(

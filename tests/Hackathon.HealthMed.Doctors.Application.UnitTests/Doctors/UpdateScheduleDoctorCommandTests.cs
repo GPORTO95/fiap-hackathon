@@ -1,70 +1,69 @@
-﻿using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
+﻿using Hackathon.HealthMed.Doctors.Application.Doctors.UpdateSchedule;
 using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Kernel.Data;
 using NSubstitute;
 
 namespace Hackathon.HealthMed.Doctors.Application.UnitTests.Doctors;
 
-public class AddScheduleDoctorCommandTests
+public class UpdateScheduleDoctorCommandTests
 {
-    private readonly AddScheduleDoctorCommand Command = new(
-        Guid.NewGuid(), 
+    private readonly UpdateScheduleDoctorCommand Command = new(
+        Guid.NewGuid(),
         DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
         new TimeSpan(10, 0, 0),
         new TimeSpan(12, 0, 0));
 
-    private readonly IDoctorRepository _doctorRepository;
     private readonly IDoctorScheduleRepository _doctorScheduleRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly UpdateScheduleDoctorCommandHandler _handler;
 
-    private readonly AddScheduleDoctorCommandHandler _handler;
-
-    public AddScheduleDoctorCommandTests()
+    public UpdateScheduleDoctorCommandTests()
     {
-        _doctorRepository = Substitute.For<IDoctorRepository>();
         _doctorScheduleRepository = Substitute.For<IDoctorScheduleRepository>();
         _unitOfWork = Substitute.For<IUnitOfWork>();
 
-        _handler = new AddScheduleDoctorCommandHandler(
-            _doctorRepository,
-            _doctorScheduleRepository,
-            _unitOfWork
-        );
+        _handler = new UpdateScheduleDoctorCommandHandler(_doctorScheduleRepository, _unitOfWork);
     }
 
     [Fact]
-    public async Task Handle_WhenTimeStampRangeIsInvalid_ShouldReturnFailure()
+    public async Task Handle_WhenTimeStampRangeIsInvalid_ReturnsFailure()
     {
         // Arrange
-        var invalidCommand = Command with { Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-1)), };
+        var invalidCommand = Command with
+        {
+            Start = TimeSpan.FromHours(10), // Invalid range (start > end)
+            End = TimeSpan.FromHours(9)
+        };
 
         // Act
         var result = await _handler.Handle(invalidCommand, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Equal(TimeStampRangeErrors.DateInvalid, result.Error);
+        Assert.NotNull(result.Error);
     }
 
     [Fact]
-    public async Task Handle_WhenDoctorDoesNotExist_ShouldReturnFailure()
+    public async Task Handle_WhenScheduleNotFound_ReturnsFailure()
     {
         // Arrange
-        _doctorRepository.ExistByIdAsync(Command.DoctorId, Arg.Any<CancellationToken>()).Returns(false);
+        _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns((DoctorSchedule)null);
 
         // Act
         var result = await _handler.Handle(Command, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Equal(DoctorErrors.NotFound, result.Error);
+        Assert.Equal(DoctorScheduleErrors.NotFound, result.Error);
     }
 
     [Fact]
-    public async Task Handle_WhenScheduleIsNotFree_ShouldReturnFailure()
+    public async Task Handle_WhenScheduleIsNotFree_ReturnsFailure()
     {
         // Arrange
-        _doctorRepository.ExistByIdAsync(Command.DoctorId, Arg.Any<CancellationToken>()).Returns(true);
+        var schedule = new DoctorSchedule { DoctorId = Guid.NewGuid() };
+
+        _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns(schedule);
         _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
 
         // Act
@@ -76,18 +75,21 @@ public class AddScheduleDoctorCommandTests
     }
 
     [Fact]
-    public async Task Handle_WhenAllConditionsAreMet_ShouldReturnSuccess()
+    public async Task Handle_WhenValidRequest_ReturnsSuccess()
     {
         // Arrange
-        _doctorRepository.ExistByIdAsync(Command.DoctorId, Arg.Any<CancellationToken>()).Returns(true);
+        var schedule = new DoctorSchedule { DoctorId = Guid.NewGuid() };
+
+        _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns(schedule);
         _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(true);
-        _unitOfWork.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
+
 
         // Act
         var result = await _handler.Handle(Command, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.NotEqual(Guid.Empty, result.Value);
+        _doctorScheduleRepository.Received(1).Update(schedule);
+        await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 }
