@@ -1,6 +1,8 @@
 using Hackathon.HealthMed.Api.Core.Extensions;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
+using Hackathon.HealthMed.Doctors.Application.Doctors.AvailableSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
+using Hackathon.HealthMed.Doctors.Application.Doctors.ListPaged;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Login;
 using Hackathon.HealthMed.Doctors.Application.Doctors.UpdateSchedule;
 using Hackathon.HealthMed.Kernel.Shared;
@@ -12,6 +14,26 @@ public static class DoctorsEndpoint
 {
     public static void MapDoctorEndpoints(this IEndpointRouteBuilder app)
     {
+        app.MapGet("api/doctors/search", async (
+            ListPagedDoctorQuery query,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result<PagedList<ListPagedDoctorQueryResponse>> result = await sender.Send(query, CancellationToken);
+
+            return result.Match(Results.Ok, CustomResults.Problem);
+        });
+
+        app.MapGet("api/doctors/{doctorId}/available-schedule", async (
+            Guid doctorId,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result<IEnumerable<AvailableScheduleDoctorQueryResponse>> result = await sender.Send(new AvailableScheduleDoctorQuery(doctorId), CancellationToken);
+
+            return result.Match(Results.Ok, CustomResults.Problem);
+        }); 
+
         app.MapPost("api/doctors/login", async (
             LoginDoctorCommand command,
             ISender sender,

@@ -30,6 +30,13 @@ internal sealed class DoctorScheduleRepository(ApplicationDbContext context) : I
             .AnyAsync(cancellationToken);
     }
 
+    public async Task<List<DoctorSchedule>> GetAvailableByDoctorIdAsync(Guid doctorId, CancellationToken cancellationToken = default)
+    {
+        return await context.DoctorSchedules
+            .Where(ds => ds.DoctorId == doctorId && ds.Available)
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(DoctorSchedule doctorSchedule)
     {
         context.DoctorSchedules.Add(doctorSchedule);

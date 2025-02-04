@@ -79,7 +79,8 @@ tests
     - [x] POST | Criação de médico
     - [x] POST | Criação de horário disponível de médico
     - [x] PUT | Atualização de horário de médico
-    - [ ] GET | Listagem de medicos com horarios disponiveis
+    - [x] GET | Listagem de medicos
+    - [x] GET | Listagem de horarios disponiveis por médico
     - [ ] POST | Agendamento de paciente e médico
     - [x] POST | Criação paciente
     - [x] POST | Autenticação paciente
@@ -201,7 +202,7 @@ POST /api/v1/doctors
     ```
 </details>
 <details>
-    <summary>[Cadastro de horarios de médico]</summary>
+    <summary>[Cadastro de horarios por médico]</summary>
 
 ```http
 POST /api/v1/doctors/schedule
@@ -323,7 +324,7 @@ PUT /api/v1/doctors/{doctorScheduleId}/schedule
     <summary>[Listar medicos]</summary>
 
 ```http
-GET /api/v1/medicos?pagina=1
+GET /api/v1/doctors?page=1
 ```
 
 - #### Caso de sucesso
@@ -332,37 +333,74 @@ GET /api/v1/medicos?pagina=1
 - #### Query Parametros
 | Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
 |----|----|----|----|----|----|
-| Pagina | Number | Sim | Deve ser informado a página posicionada | 2 | false |
-| Pesquisa | String |Não | Pode ser informado o nome, email ou crm para filtro | João |  |
+| Page | Number | Sim | Deve ser informado a página posicionada | 2 | false |
+| PageSize | Number | Sim | Deve ser informado a quantidade que se deseja obter por página | 10 | false |
+| Search | String |Não | Pode ser informado o nome, email, cpf ou crm para filtro | João |  |
 
 
 - #### Exemplo Response
     - ##### Listagem
     ```json
     {
-        "pagina": 1,
-        "existeProximaPagina": true,
-        "existePaginaAnterior": false,
-        "total": 20,
-        "lista": [
+        "page": 1,
+        "pageSize": 10,
+        "totalCount": 20,
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "items": [
             {
-                "id: ": "62db978f-9999-45c9-9304-2d12554bd038",
-                "nome": "Hugo Almeida",
+                "doctorId: ": "62db978f-9999-45c9-9304-2d12554bd038",
+                "name": "Hugo Almeida",
                 "email": "hugo.almeida@teste.com",
                 "cpf": "21644957051",
-                "crm": "1456214",
-                "senha": "Teste123*"
+                "crm": "1456214"
             },
             {
-                "id: ": "62db978f-9999-45c9-9304-2d12554bd038",
-                "nome": "Lucas Rocha",
+                "doctorId: ": "62db978f-9999-45c9-9304-2d12554bd038",
+                "name": "Lucas Rocha",
                 "email": "lucas.rocha@teste.com",
                 "cpf": "21644957051",
-                "crm": "1456214",
-                "senha": "Teste123*"
+                "crm": "1456214"
             }
         ]
     }
+    ```
+</details>
+<details>
+    <summary>[Listar horarios disponiveis de medico]</summary>
+
+```http
+GET /api/v1/doctors/{doctorId}/available-schedule
+```
+
+- #### Caso de sucesso
+    - Será retornado uma lista com os horarios disponiveis do médico informado
+
+- #### Caso de uso
+    - Caso o `doctorId` informado não esteja cadastrado, será retornado um 404
+
+- #### Query Parametros
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| DoctorId | Guid | Sim | Deve ser informado o id do médico | "62db978f-9999-45c9-9304-2d12554bd038" | false |
+
+- #### Exemplo Response
+    - ##### Listagem
+    ```json
+    [
+        {
+            "doctorScheduleId: ": "62db978f-9999-45c9-9304-2d12554bd038",
+            "date": "2025-01-31",
+            "start": "09:42",
+            "end": "10:00"
+        },
+        {
+            "doctorScheduleId: ": "62db978f-9999-45c9-9304-2d12554bd038",
+            "date": "2025-01-31",
+            "start": "10:10",
+            "end": "11:00"
+        }
+    ]
     ```
 </details>
 <details>

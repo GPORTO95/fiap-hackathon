@@ -5,6 +5,8 @@ namespace Hackathon.HealthMed.Doctors.Domain.Doctors;
 
 public sealed class Doctor : Entity
 {
+    private readonly List<DoctorSchedule> _doctorSchedules = new();
+
     public Doctor()
     { }
     
@@ -23,8 +25,15 @@ public sealed class Doctor : Entity
     public Crm Crm { get; set; }
     public Password Password { get; set; }
 
+    public IReadOnlyCollection<DoctorSchedule> DoctorSchedules => _doctorSchedules;
+
     public static Doctor Create(Name name, Email email, Cpf cpf, Crm crm, Password password)
     {
         return new Doctor(Guid.NewGuid(), name, email, cpf, crm, password);
+    }
+
+    public void AddSchedule(DoctorSchedule doctorSchedule)
+    {
+        _doctorSchedules.Add(doctorSchedule);
     }
 }

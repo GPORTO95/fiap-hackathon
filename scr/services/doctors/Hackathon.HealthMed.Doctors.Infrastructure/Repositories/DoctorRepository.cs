@@ -22,6 +22,13 @@ internal sealed class DoctorRepository(ApplicationDbContext context) : IDoctorRe
         return !await context.Doctors.AnyAsync(p => p.Email == email, cancellationToken);
     }
 
+    public async Task<Doctor?> GetByIdAsync(Guid doctorId, CancellationToken cancellationToken = default)
+    {
+        return await context.Doctors
+            .Where(p => p.Id == doctorId)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<Doctor?> LoginAsync(Email email, Password password, CancellationToken cancellationToken = default)
     {
         return await context.Doctors

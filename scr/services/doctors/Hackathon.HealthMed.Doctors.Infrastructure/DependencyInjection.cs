@@ -8,6 +8,7 @@ using Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Hackathon.HealthMed.Doctors.Application.Abstractions.Data;
 
 namespace Hackathon.HealthMed.Doctors.Infrastructure;
 
@@ -28,6 +29,9 @@ public static class DependencyInjection
 
         services.AddScoped<IDoctorRepository, DoctorRepository>();
         services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+        
+        services.AddScoped<IApplicationDbContext>(sp =>
+            sp.GetRequiredService<ApplicationDbContext>());
 
         var section = configuration.GetSection("Jwt");
         services.Configure<JwtOptions>(section);

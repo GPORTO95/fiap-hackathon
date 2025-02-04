@@ -23,5 +23,10 @@ internal sealed class DoctorScheduleConfig : IEntityTypeConfiguration<DoctorSche
             ts.Property(tr => tr.End)
                 .HasColumnName("End");
         });
+
+        builder
+            .HasOne(ei => ei.Doctor)
+            .WithMany(e => e.DoctorSchedules)
+            .HasForeignKey(ei => ei.DoctorId);
     }
 }

@@ -1,10 +1,11 @@
+using Hackathon.HealthMed.Doctors.Application.Abstractions.Data;
 using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Kernel.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hackathon.HealthMed.Doctors.Infrastructure.Data;
 
-internal sealed class ApplicationDbContext : DbContext, IUnitOfWork
+internal sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

@@ -22,7 +22,8 @@ public sealed class DoctorSchedule
     public TimeStampRange Time { get; set; }
     
     public Guid DoctorId { get; set; }
-    
+    public Doctor Doctor { get; set; }
+
     public static DoctorSchedule Create(Guid id, TimeStampRange time, Guid doctorId)
     {
         return new DoctorSchedule(id, time, doctorId);
