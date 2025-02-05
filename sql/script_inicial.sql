@@ -7,7 +7,7 @@ CREATE TABLE [Doctors] (
     [Cpf] varchar(11) NOT NULL,
     [PasswordHash] varchar(100) NOT NULL,
     [Crm] varchar(7) NOT NULL,
-    CONSTRAINT [PK_Medicos] PRIMARY KEY ([Id])
+    CONSTRAINT [PK_Doctors] PRIMARY KEY ([Id])
 );
 
 CREATE TABLE [DoctorSchedules] (
@@ -26,12 +26,12 @@ CREATE TABLE [Patients] (
     [Email] varchar(100) NOT NULL,
     [Cpf] varchar(11) NOT NULL,
     [PasswordHash] varchar(100) NOT NULL,
-    CONSTRAINT [PK_Pacientes] PRIMARY KEY ([Id])
+    CONSTRAINT [PK_Patients] PRIMARY KEY ([Id])
 );
 
-CREATE TABLE [Consultas] (
+CREATE TABLE [Appointment] (
     [Id] uniqueidentifier NOT NULL,
-    [HorarioMedicoId] uniqueidentifier NOT NULL,
-    [PacienteId] uniqueidentifier NOT NULL,
-    CONSTRAINT [PK_Consultas] PRIMARY KEY ([Id])
+    [DoctorScheduleId] uniqueidentifier NOT NULL,
+    [PatientId] uniqueidentifier NOT NULL,
+    CONSTRAINT [PK_Appointments] PRIMARY KEY ([Id])
 );

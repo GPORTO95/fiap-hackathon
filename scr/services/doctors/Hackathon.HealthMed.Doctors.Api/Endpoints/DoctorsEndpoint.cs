@@ -1,4 +1,5 @@
 using Hackathon.HealthMed.Api.Core.Extensions;
+using Hackathon.HealthMed.Doctors.Application.Appointments.Create;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AvailableSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
@@ -71,6 +72,17 @@ public static class DoctorsEndpoint
             CancellationToken CancellationToken) =>
         {
             Result result = await sender.Send(new UpdateScheduleDoctorCommand(doctorScheduleId, request.Date, request.Start, request.End), CancellationToken);
+
+            return result.Match(Results.NoContent, CustomResults.Problem);
+        });
+
+        app.MapPost("api/doctors/{doctorScheduleId}/{patientId}/appointment", async (
+            Guid doctorScheduleId,
+            Guid patientId,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result result = await sender.Send(new CreateAppointmentCommand(doctorScheduleId, patientId), CancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         });
