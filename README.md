@@ -36,7 +36,7 @@ _ **Api**: Endpoints e middlewares
 - **Domain**: Classes compartilhadas, entidades, objetos de valor, interface de repositorios e mensagens de erros
 - **Infrastructure**: Camada de acesso a dados, cache e classes concretas de acesso a serviços externos
 
-<img src="./.assets/arch.png" width="400" height="250">
+<img src="./.assets/arch.png">
 
 <!--## :deciduous_tree: Projeto
  src
