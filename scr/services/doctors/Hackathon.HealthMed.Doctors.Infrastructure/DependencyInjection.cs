@@ -26,8 +26,21 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+
         string? connectionString = configuration.GetConnectionString("Database");
         Ensure.NotNullOrEmpty(connectionString);
+
+
+        var sqlUser = Environment.GetEnvironmentVariable("MSSQL_USER") ?? "sa";
+
+        var saPassword = Environment.GetEnvironmentVariable("SA_PASSWORD") ?? "1q2w3e4r@#$";
+
+        var host = Environment.GetEnvironmentVariable("MSSQL_HOST") ?? "host.docker.internal,1433";
+
+        connectionString = connectionString.Replace("{MSSQL_USER}", sqlUser)
+                                           .Replace("{SA_PASSWORD}", saPassword)
+                                           .Replace("{MSSQL_HOST}", host);
+
 
         services.AddDbContext<ApplicationDbContext>(
             (sp, options) => options
@@ -42,8 +55,20 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(sp =>
             sp.GetRequiredService<ApplicationDbContext>());
 
-        var section = configuration.GetSection("Jwt");
-        services.Configure<JwtOptions>(section);
+
+        var jwtOptions = new JwtOptions
+        {
+            Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "HealthMedPatient",
+            Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "HealthMedPatient",
+            SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "super-secret-key-value-dbb6504e-133d-4654-bf55-15536b019434!",     
+        };
+
+        services.Configure<JwtOptions>(options =>
+        {
+            options.Issuer = jwtOptions.Issuer;
+            options.Audience = jwtOptions.Audience;
+            options.SecretKey = jwtOptions.SecretKey;
+        });
 
         services.AddScoped<IJwtProvider, JwtProvider>();
 
@@ -56,6 +81,10 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? configuration["Jwt:Issuer"];
+        var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? configuration["Jwt:Audience"];
+        var jwtSecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? configuration["Jwt:SecretKey"];
+
         services
             .AddAuthentication(options =>
             {
@@ -69,9 +98,9 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                    ValidIssuer = jwtIssuer,
+                    ValidAudience = jwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey!)),
                     ClockSkew = TimeSpan.Zero
                 };
             })
@@ -83,9 +112,9 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                    ValidIssuer = jwtIssuer,
+                    ValidAudience = jwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey!)),
                     ClockSkew = TimeSpan.Zero
                 };
             });

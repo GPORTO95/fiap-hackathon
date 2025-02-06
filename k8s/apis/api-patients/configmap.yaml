@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jwt-config
+  namespace: api-doctor
+data:
+  JWT_ISSUER: HealthMedPatient
+  JWT_AUDIENCE: HealthMedPatient
+  JWT_SECRET_KEY: super-secret-key-value-dbb6504e-133d-4654-bf55-15536b019434!
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqlserver-config
+  namespace: api-doctor
+  labels:
+    app: sqlserver
+  annotations:
+    description: "SQL Server ConfigMap to store environment variables including credentials"
+data:
+  MSSQL_USER: "sa"
+  SA_PASSWORD: "sqlpassword!123"
+  ACCEPT_EULA: "Y"
+  MSSQL_HOST: "sqlserver-nodeport-service.sqlserver-namespace.svc.cluster.local"

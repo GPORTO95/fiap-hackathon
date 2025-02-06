@@ -6,17 +6,22 @@ using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+string contentRoot = builder.Environment.ContentRootPath;
+
+string environmentName = builder.Environment.EnvironmentName;
+
+Console.WriteLine($"environment utilizado : {environmentName}");
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+builder.Configuration.AddEnvironmentVariables();
 
 WebApplication app = builder.Build();
 
