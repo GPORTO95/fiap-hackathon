@@ -15,6 +15,8 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+//builder.Services.AddMvc();
+
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
@@ -34,14 +36,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// app.UseScalar(options =>
-// {
-//     options.RoutePrefix = "docs";
-// });
-
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
+
+//app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapDoctorEndpoints();
 

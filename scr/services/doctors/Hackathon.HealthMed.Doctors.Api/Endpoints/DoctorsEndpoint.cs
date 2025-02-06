@@ -1,11 +1,13 @@
 using Hackathon.HealthMed.Api.Core.Extensions;
-using Hackathon.HealthMed.Doctors.Application.Appointments.Create;
+using Hackathon.HealthMed.Doctors.Application.Doctors.AddAppointment;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AvailableSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
 using Hackathon.HealthMed.Doctors.Application.Doctors.ListPaged;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Login;
 using Hackathon.HealthMed.Doctors.Application.Doctors.UpdateSchedule;
+using Hackathon.HealthMed.Doctors.Application.Doctors.UpdateStatusSchedule;
+using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Kernel.Shared;
 using MediatR;
 
@@ -16,11 +18,14 @@ public static class DoctorsEndpoint
     public static void MapDoctorEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("api/doctors/search", async (
-            ListPagedDoctorQuery query,
+            int page,
+            int pageSize,
+            string? search,
+            Specialty? specialty,
             ISender sender,
             CancellationToken CancellationToken) =>
         {
-            Result<PagedList<ListPagedDoctorQueryResponse>> result = await sender.Send(query, CancellationToken);
+            Result<PagedList<ListPagedDoctorQueryResponse>> result = await sender.Send(new ListPagedDoctorQuery(page, pageSize, search, specialty), CancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         });
@@ -82,7 +87,18 @@ public static class DoctorsEndpoint
             ISender sender,
             CancellationToken CancellationToken) =>
         {
-            Result result = await sender.Send(new CreateAppointmentCommand(doctorScheduleId, patientId), CancellationToken);
+            Result result = await sender.Send(new AddAppointmentCommand(doctorScheduleId, patientId), CancellationToken);
+
+            return result.Match(Results.NoContent, CustomResults.Problem);
+        });
+
+        app.MapPatch("api/doctors/{doctorScheduleId}/appointment/status:{status}", async (
+            Guid doctorScheduleId,
+            bool status,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result result = await sender.Send(new UpdateStatusScheduleDoctorCommand(doctorScheduleId, status), CancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         });

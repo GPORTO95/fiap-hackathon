@@ -10,8 +10,9 @@ namespace Hackathon.HealthMed.Patients.Application.UnitTests;
 
 public class LoginPatientCommandTests
 {
-    private readonly LoginPatientCommand Command = new("test@test.com", "Teste@123");
-    
+    private readonly LoginPatientCommand CommandByEmail = new("test@test.com", null, "Teste@123");
+    private readonly LoginPatientCommand CommandByCpf = new(null, "83351678002", "Teste@123");
+
     private readonly IPatientRepository _patientRepository;
     private readonly IJwtProvider _jwtProvider;
     
@@ -29,7 +30,7 @@ public class LoginPatientCommandTests
     public async Task Handle_Should_ReturnError_WhenEmailIsNotValid()
     {
         // Arrange
-        LoginPatientCommand invalidCommand = Command with
+        LoginPatientCommand invalidCommand = CommandByEmail with
         {
             Email = "test"
         };
@@ -43,10 +44,28 @@ public class LoginPatientCommandTests
     }
 
     [Fact]
+    public async Task Handle_Should_ReturnError_WhenCpfIsNotValid()
+    {
+        // Arrange
+        LoginPatientCommand invalidCommand = CommandByEmail with
+        {
+            Cpf = "11122233344",
+            Email = null
+        };
+
+        // Act
+        Result<string> result = await _handler.Handle(invalidCommand, default);
+
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(CpfErrors.InvalidFormat);
+    }
+
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenPassowrdIsNotValid()
     {
         // Arrange
-        LoginPatientCommand invalidCommand = Command with
+        LoginPatientCommand invalidCommand = CommandByEmail with
         {
             Password = "Teste123"
         };
@@ -60,34 +79,62 @@ public class LoginPatientCommandTests
     }
     
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenLoginIsInvalid()
+    public async Task Handle_Should_ReturnError_WhenLoginByEmailIsInvalid()
     {
         // Arrange
-        MockLogin(false);
+        MockLoginEmail(false);
         
         // Act
-        Result<string> result = await _handler.Handle(Command, default);
+        Result<string> result = await _handler.Handle(CommandByEmail, default);
 
         // Assert
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(PatientErrors.LoginInvalid);
     }
-    
+
     [Fact]
-    public async Task Handle_Should_ReturnSuccess_WhenLoginValid()
+    public async Task Handle_Should_ReturnError_WhenLoginByCpfIsInvalid()
     {
         // Arrange
-        MockLogin();
+        MockLoginCpf(false);
+
+        // Act
+        Result<string> result = await _handler.Handle(CommandByEmail, default);
+
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(PatientErrors.LoginInvalid);
+    }
+
+    [Fact]
+    public async Task Handle_Should_ReturnSuccess_WhenLoginByEmailIsValid()
+    {
+        // Arrange
+        MockLoginEmail();
         
         // Act
-        Result<string> result = await _handler.Handle(Command, default);
+        Result<string> result = await _handler.Handle(CommandByEmail, default);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeOfType<string>();
     }
 
-    private void MockLogin(bool exist = true)
+    [Fact]
+    public async Task Handle_Should_ReturnSuccess_WhenLoginByCpfIsValid()
+    {
+        // Arrange
+        MockLoginCpf();
+
+        // Act
+        Result<string> result = await _handler.Handle(CommandByCpf, default);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeOfType<string>();
+    }
+
+    private void MockLoginEmail(bool exist = true)
     {
         Domain.Patients.Patient? patient = exist 
             ? new Patient(
@@ -98,8 +145,26 @@ public class LoginPatientCommandTests
                 Password.Create("Teste@123").Value)
             : null;
         
-        _patientRepository.LoginAsync(
+        _patientRepository.LoginByEmailAsync(
             Arg.Any<Email>(),
+            Arg.Any<Password>(),
+            default)
+            .Returns(patient);
+    }
+
+    private void MockLoginCpf(bool exist = true)
+    {
+        Domain.Patients.Patient? patient = exist
+            ? new Patient(
+                Guid.NewGuid(),
+                Name.Create("Gabriel").Value,
+                Email.Create("test@test.com").Value,
+                Cpf.Create("47101894046").Value,
+                Password.Create("Teste@123").Value)
+            : null;
+
+        _patientRepository.LoginByCpfAsync(
+            Arg.Any<Cpf>(),
             Arg.Any<Password>(),
             default)
             .Returns(patient);

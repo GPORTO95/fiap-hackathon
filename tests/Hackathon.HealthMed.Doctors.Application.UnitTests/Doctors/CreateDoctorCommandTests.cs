@@ -10,7 +10,7 @@ namespace Hackathon.HealthMed.Doctors.Application.UnitTests.Doctors;
 
 public class CreateDoctorCommandTests
 {
-    private readonly CreateDoctorCommand Command = new("Test", "test@gmail.com", "73723110045", "123456", "Teste@123");
+    private readonly CreateDoctorCommand Command = new("Test", "test@gmail.com", "73723110045", "123456", "Teste@123", Specialty.Cardiology);
 
     private readonly IDoctorRepository _doctorRepositoryMock;
     private readonly IUnitOfWork _unitOfWorkMock;
@@ -140,12 +140,29 @@ public class CreateDoctorCommandTests
     }
 
     [Fact]
+    public async Task Handle_Should_ReturnError_WhenCrmNotUnique()
+    {
+        // Arrange
+        MockCpf();
+        MockEmail();
+        MockCrm(false);
+
+        // Act
+        Result<Guid> result = await _handler.Handle(Command, default);
+
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DoctorErrors.CrmNotUnique);
+    }
+
+    [Fact]
     public async Task Handle_Should_ReturnSuccess_WhenCommandIsValid()
     {
         // Arrange
         MockCpf();
         MockEmail();
-        
+        MockCrm();
+
         // Act
         var result = await _handler.Handle(Command, default);
         
@@ -172,6 +189,13 @@ public class CreateDoctorCommandTests
     {
         _doctorRepositoryMock.IsEmailUniqueAsync(
                 Email.Create(Command.Email).Value, default)
+            .Returns(isUnique);
+    }
+
+    private void MockCrm(bool isUnique = true)
+    {
+        _doctorRepositoryMock.IsCrmUniqueAsync(
+                Crm.Create(Command.Crm).Value, default)
             .Returns(isUnique);
     }
 }

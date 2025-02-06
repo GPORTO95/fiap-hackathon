@@ -8,7 +8,9 @@ public interface IPatientRepository
     
     Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default);
 
-    Task<Patient?> LoginAsync(Email email, Password password, CancellationToken cancellationToken = default);
-    
+    Task<Patient?> LoginByEmailAsync(Email email, Password password, CancellationToken cancellationToken = default);
+
+    Task<Patient?> LoginByCpfAsync(Cpf cpf, Password password, CancellationToken cancellationToken = default);
+
     void Insert(Patient patient);
 }

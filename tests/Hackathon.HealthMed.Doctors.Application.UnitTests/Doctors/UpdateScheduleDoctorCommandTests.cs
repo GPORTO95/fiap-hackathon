@@ -57,6 +57,25 @@ public class UpdateScheduleDoctorCommandTests
         Assert.Equal(DoctorScheduleErrors.NotFound, result.Error);
     }
 
+    [Theory]
+    [InlineData(ScheduleStatus.Accepted)]
+    [InlineData(ScheduleStatus.Pending)]
+    public async Task Handle_WhenScheduleIsDenied_ReturnsFailure(ScheduleStatus status)
+    {
+        // Arrange
+        var schedule = new DoctorSchedule { DoctorId = Guid.NewGuid(), Status = status };
+
+        _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns(schedule);
+        _doctorScheduleRepository.ScheduleIsFreeAsync(schedule.DoctorId, Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
+
+        // Act
+        var result = await _handler.Handle(Command, CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsFailure);
+        Assert.Equal(DoctorScheduleErrors.Denied, result.Error);
+    }
+
     [Fact]
     public async Task Handle_WhenScheduleIsNotFree_ReturnsFailure()
     {
@@ -64,14 +83,14 @@ public class UpdateScheduleDoctorCommandTests
         var schedule = new DoctorSchedule { DoctorId = Guid.NewGuid() };
 
         _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns(schedule);
-        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
+        _doctorScheduleRepository.ScheduleIsFreeAsync(schedule.DoctorId, Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
 
         // Act
         var result = await _handler.Handle(Command, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Equal(DoctorScheduleErrors.ScheduleIsNotFree, result.Error);
+        Assert.Equal(DoctorScheduleErrors.IsNotFree, result.Error);
     }
 
     [Fact]
@@ -81,7 +100,7 @@ public class UpdateScheduleDoctorCommandTests
         var schedule = new DoctorSchedule { DoctorId = Guid.NewGuid() };
 
         _doctorScheduleRepository.GetByIdAsync(Command.DoctorScheduleId, Arg.Any<CancellationToken>()).Returns(schedule);
-        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(true);
+        _doctorScheduleRepository.ScheduleIsFreeAsync(schedule.DoctorId, Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(true);
 
 
         // Act

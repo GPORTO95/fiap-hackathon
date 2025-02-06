@@ -17,10 +17,17 @@ internal sealed class PatientRepository(ApplicationDbContext context) : IPatient
         return !await context.Patients.AnyAsync(p => p.Email == email, cancellationToken);
     }
 
-    public async Task<Patient?> LoginAsync(Email email, Password password, CancellationToken cancellationToken = default)
+    public async Task<Patient?> LoginByEmailAsync(Email email, Password password, CancellationToken cancellationToken = default)
     {
         return await context.Patients
             .Where(p => p.Email == email && p.Password == password)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<Patient?> LoginByCpfAsync(Cpf cpf, Password password, CancellationToken cancellationToken = default)
+    {
+        return await context.Patients
+            .Where(p => p.Cpf == cpf && p.Password == password)
             .FirstOrDefaultAsync(cancellationToken);
     }
 

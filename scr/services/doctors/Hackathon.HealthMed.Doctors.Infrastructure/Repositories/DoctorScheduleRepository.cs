@@ -12,7 +12,7 @@ internal sealed class DoctorScheduleRepository(ApplicationDbContext context) : I
             .FirstOrDefaultAsync(ds => ds.Id == doctorScheduleId, cancellationToken);
     }
 
-    public async Task<bool> ScheduleIsFreeAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken cancellationToken = default)
+    public async Task<bool> ScheduleIsFreeAsync(Guid doctorId, DateOnly date, TimeSpan start, TimeSpan end, CancellationToken cancellationToken = default)
     {
         var formattedDate = date.ToString("yyyy-MM-dd");
         var formattedStartTime = start.ToString(@"hh\:mm");
@@ -21,19 +21,20 @@ internal sealed class DoctorScheduleRepository(ApplicationDbContext context) : I
         const string sql = @"
             SELECT Id
             FROM DoctorSchedules
-            WHERE Date = {0}
+            WHERE DoctorId = {3}
+            AND Date = {0}
             AND (START BETWEEN {1} AND {2}
             OR [End] BETWEEN {1} AND {2})";
 
         return !await context.DoctorSchedules
-            .FromSqlRaw(sql, formattedDate, formattedStartTime, formattedEndTime)
+            .FromSqlRaw(sql, formattedDate, formattedStartTime, formattedEndTime, doctorId)
             .AnyAsync(cancellationToken);
     }
 
     public async Task<List<DoctorSchedule>> GetAvailableByDoctorIdAsync(Guid doctorId, CancellationToken cancellationToken = default)
     {
         return await context.DoctorSchedules
-            .Where(ds => ds.DoctorId == doctorId && ds.Available)
+            .Where(ds => ds.DoctorId == doctorId && ds.Status == ScheduleStatus.Free)
             .ToListAsync(cancellationToken);
     }
 

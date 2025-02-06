@@ -1,5 +1,4 @@
 using Hackathon.HealthMed.Doctors.Application.Abstractions.Data;
-using Hackathon.HealthMed.Doctors.Domain.Appointments;
 using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Doctors.Domain.Patients;
 using Hackathon.HealthMed.Kernel.Data;
@@ -16,8 +15,6 @@ internal sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicatio
     public DbSet<Doctor> Doctors { get; set; }
 
     public DbSet<DoctorSchedule> DoctorSchedules { get; set; }
-
-    public DbSet<Appointment> Appointments { get; set; }
 
     public DbSet<Patient> Patients { get; set; }
 

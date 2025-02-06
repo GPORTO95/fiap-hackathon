@@ -7,7 +7,7 @@ using Hackathon.HealthMed.Kernel.Shared;
 namespace Hackathon.HealthMed.Doctors.Application.Doctors.Login;
 
 public sealed record LoginDoctorCommand(
-    string Email,
+    string Crm,
     string Password) : ICommand<string>;
     
 internal sealed record LoginDoctorCommandHandler(
@@ -16,11 +16,11 @@ internal sealed record LoginDoctorCommandHandler(
 {
     public async Task<Result<string>> Handle(LoginDoctorCommand request, CancellationToken cancellationToken)
     {
-        Result<Email> emailResult = Email.Create(request.Email);
+        Result<Crm> crmResult = Crm.Create(request.Crm);
 
-        if (emailResult.IsFailure)
+        if (crmResult.IsFailure)
         {
-            return Result.Failure<string>(emailResult.Error);
+            return Result.Failure<string>(crmResult.Error);
         }
         
         Result<Password> passwordResult = Password.Create(request.Password);
@@ -31,7 +31,7 @@ internal sealed record LoginDoctorCommandHandler(
         }
         
         Doctor? doctor = await DoctorRepository.LoginAsync(
-            emailResult.Value,
+            crmResult.Value,
             passwordResult.Value,
             cancellationToken);
 

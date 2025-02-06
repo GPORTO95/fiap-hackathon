@@ -15,7 +15,11 @@ public static class DoctorErrors
     public static Error EmailNotUnique = Error.Conflict(
         "Doctor.EmailNotUnique",
         "The provided email is not unique");
-    
+
+    public static Error CrmNotUnique = Error.Conflict(
+        "Doctor.CrmNotUnique",
+        "The provided crm is not unique");
+
     public static readonly Error LoginInvalid = Error.Problem(
         "Doctor.LoginInvalid", 
         "Email or password informed is invalid");

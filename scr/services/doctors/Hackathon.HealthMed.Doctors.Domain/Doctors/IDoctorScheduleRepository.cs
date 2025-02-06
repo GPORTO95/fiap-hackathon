@@ -2,7 +2,7 @@
 
 public interface IDoctorScheduleRepository
 {
-    Task<bool> ScheduleIsFreeAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken cancellationToken = default);
+    Task<bool> ScheduleIsFreeAsync(Guid doctorId, DateOnly date, TimeSpan start, TimeSpan end, CancellationToken cancellationToken = default);
 
     Task<List<DoctorSchedule>> GetAvailableByDoctorIdAsync(Guid doctorId, CancellationToken cancellationToken = default);
 

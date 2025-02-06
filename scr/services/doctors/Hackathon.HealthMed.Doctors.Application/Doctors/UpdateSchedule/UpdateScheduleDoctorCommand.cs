@@ -36,9 +36,14 @@ internal sealed class UpdateScheduleDoctorCommandHandler(
             return Result.Failure(DoctorScheduleErrors.NotFound);
         }
 
-        if (!await doctorScheduleRepository.ScheduleIsFreeAsync(request.Date, request.Start, request.End, cancellationToken))
+        if (!schedule.IsAvailableForUpdate())
         {
-            return Result.Failure<Guid>(DoctorScheduleErrors.ScheduleIsNotFree);
+            return Result.Failure(DoctorScheduleErrors.Denied);
+        }
+
+        if (!await doctorScheduleRepository.ScheduleIsFreeAsync(schedule.DoctorId, request.Date, request.Start, request.End, cancellationToken))
+        {
+            return Result.Failure<Guid>(DoctorScheduleErrors.IsNotFree);
         }
 
         schedule.UpdateSchedule(rangeResult.Value);

@@ -30,9 +30,9 @@ internal sealed class AddScheduleDoctorCommandHandler(
             return Result.Failure<Guid>(DoctorErrors.NotFound);
         }
 
-        if (!await doctorScheduleRepository.ScheduleIsFreeAsync(request.Date, request.Start, request.End, cancellationToken))
+        if (!await doctorScheduleRepository.ScheduleIsFreeAsync(request.DoctorId, request.Date, request.Start, request.End, cancellationToken))
         {
-            return Result.Failure<Guid>(DoctorScheduleErrors.ScheduleIsNotFree);
+            return Result.Failure<Guid>(DoctorScheduleErrors.IsNotFree);
         }
 
         DoctorSchedule schedule = DoctorSchedule.Create(

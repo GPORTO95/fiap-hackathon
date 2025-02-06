@@ -10,7 +10,7 @@ namespace Hackathon.HealthMed.Doctors.Application.UnitTests.Doctors;
 
 public class LoginDoctorCommandTests
 {
-    private readonly LoginDoctorCommand Command = new("test@test.com", "Teste@123");
+    private readonly LoginDoctorCommand Command = new("123456", "Teste@123");
     
     private readonly IDoctorRepository _doctorRepositoryMock;
     private readonly IJwtProvider _jwtProviderMock;
@@ -31,7 +31,7 @@ public class LoginDoctorCommandTests
         // Arrange
         var invalidCommand = Command with
         {
-            Email = "test"
+            Crm = "test"
         };
 
         // Act
@@ -39,7 +39,7 @@ public class LoginDoctorCommandTests
 
         // Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmailErrors.InvalidFormat);
+        result.Error.Should().Be(CrmErrors.InvalidFormat);
     }
 
     [Fact]
@@ -96,11 +96,12 @@ public class LoginDoctorCommandTests
                 Email.Create("test@test.com").Value,
                 Cpf.Create("47101894046").Value,
                 Crm.Create("123456").Value,
-                Password.Create("Teste@123").Value)
+                Password.Create("Teste@123").Value,
+                Specialty.GeneralPractice)
             : null;
         
         _doctorRepositoryMock.LoginAsync(
-            Arg.Any<Email>(),
+            Arg.Any<Crm>(),
             Arg.Any<Password>(),
             default)
             .Returns(doctor);

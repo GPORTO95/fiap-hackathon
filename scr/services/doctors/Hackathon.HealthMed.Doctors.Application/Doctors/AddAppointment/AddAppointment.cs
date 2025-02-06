@@ -1,23 +1,22 @@
-﻿using Hackathon.HealthMed.Doctors.Domain.Appointments;
-using Hackathon.HealthMed.Doctors.Domain.Doctors;
+﻿using Hackathon.HealthMed.Doctors.Domain.Doctors;
 using Hackathon.HealthMed.Doctors.Domain.Patients;
 using Hackathon.HealthMed.Kernel.Data;
 using Hackathon.HealthMed.Kernel.Messaging;
 using Hackathon.HealthMed.Kernel.Shared;
 
-namespace Hackathon.HealthMed.Doctors.Application.Appointments.Create;
+namespace Hackathon.HealthMed.Doctors.Application.Doctors.AddAppointment;
 
-public sealed record CreateAppointmentCommand(
+
+public sealed record AddAppointmentCommand(
     Guid DoctorScheduleId,
     Guid PatientId) : ICommand;
 
-internal sealed class CreateAppointmentCommandHandler(
+internal sealed class AddAppointmentCommandHandler(
     IDoctorScheduleRepository doctorScheduleRepository,
     IPatientRepository patientRepository,
-    IAppointmentRepository appointmentRepository,
-    IUnitOfWork unitOfWork) : ICommandHandler<CreateAppointmentCommand>
+    IUnitOfWork unitOfWork) : ICommandHandler<AddAppointmentCommand>
 {
-    public async Task<Result> Handle(CreateAppointmentCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(AddAppointmentCommand request, CancellationToken cancellationToken)
     {
         DoctorSchedule? schedule = await doctorScheduleRepository.GetByIdAsync(request.DoctorScheduleId, cancellationToken);
 
@@ -26,9 +25,9 @@ internal sealed class CreateAppointmentCommandHandler(
             return Result.Failure(DoctorScheduleErrors.NotFound);
         }
 
-        if (!schedule.Available)
+        if (!schedule.IsAvailable())
         {
-            return Result.Failure(DoctorScheduleErrors.ScheduleIsNotFree);
+            return Result.Failure(DoctorScheduleErrors.IsNotFree);
         }
 
         if (!await patientRepository.ExistByIdAsync(request.PatientId, cancellationToken))
@@ -36,10 +35,10 @@ internal sealed class CreateAppointmentCommandHandler(
             return Result.Failure(PatientErrors.NotFound);
         }
 
-        Appointment appointment = Appointment.Create(Guid.NewGuid(), request.DoctorScheduleId, request.PatientId);
+        schedule.UpdateStatus(ScheduleStatus.Pending);
+        schedule.AddPatient(request.PatientId);
 
-        appointmentRepository.Add(appointment);
-
+        doctorScheduleRepository.Update(schedule);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

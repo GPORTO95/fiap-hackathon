@@ -22,6 +22,11 @@ internal sealed class DoctorRepository(ApplicationDbContext context) : IDoctorRe
         return !await context.Doctors.AnyAsync(p => p.Email == email, cancellationToken);
     }
 
+    public async Task<bool> IsCrmUniqueAsync(Crm crm, CancellationToken cancellationToken = default)
+    {
+        return !await context.Doctors.AnyAsync(p => p.Crm == crm, cancellationToken);
+    }
+
     public async Task<Doctor?> GetByIdAsync(Guid doctorId, CancellationToken cancellationToken = default)
     {
         return await context.Doctors
@@ -29,10 +34,10 @@ internal sealed class DoctorRepository(ApplicationDbContext context) : IDoctorRe
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<Doctor?> LoginAsync(Email email, Password password, CancellationToken cancellationToken = default)
+    public async Task<Doctor?> LoginAsync(Crm crm, Password password, CancellationToken cancellationToken = default)
     {
         return await context.Doctors
-            .Where(p => p.Email == email && p.Password == password)
+            .Where(p => p.Crm == crm && p.Password == password)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -40,4 +45,5 @@ internal sealed class DoctorRepository(ApplicationDbContext context) : IDoctorRe
     {
         context.Doctors.Add(doctor);
     }
+
 }

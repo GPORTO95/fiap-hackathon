@@ -11,7 +11,8 @@ public sealed record CreateDoctorCommand(
     string Email,
     string Cpf,
     string Crm,
-    string Password) : ICommand<Guid>;
+    string Password,
+    Specialty Specialty) : ICommand<Guid>;
 
 internal sealed class CreateDoctorCommandHandler(
     IDoctorRepository doctorRepository,
@@ -64,12 +65,18 @@ internal sealed class CreateDoctorCommandHandler(
             return Result.Failure<Guid>(DoctorErrors.EmailNotUnique);
         }
 
+        if (!await doctorRepository.IsCrmUniqueAsync(crmResult.Value, cancellationToken))
+        {
+            return Result.Failure<Guid>(DoctorErrors.CrmNotUnique);
+        }
+
         var doctor = Doctor.Create(
             nameResult.Value, 
             emailResult.Value,
             cpfResult.Value,
             crmResult.Value,
-            passwordResult.Value);
+            passwordResult.Value,
+             request.Specialty);
         
         doctorRepository.Insert(doctor);
         

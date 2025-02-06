@@ -65,14 +65,14 @@ public class AddScheduleDoctorCommandTests
     {
         // Arrange
         _doctorRepository.ExistByIdAsync(Command.DoctorId, Arg.Any<CancellationToken>()).Returns(true);
-        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
+        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.DoctorId, Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(false);
 
         // Act
         var result = await _handler.Handle(Command, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Equal(DoctorScheduleErrors.ScheduleIsNotFree, result.Error);
+        Assert.Equal(DoctorScheduleErrors.IsNotFree, result.Error);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class AddScheduleDoctorCommandTests
     {
         // Arrange
         _doctorRepository.ExistByIdAsync(Command.DoctorId, Arg.Any<CancellationToken>()).Returns(true);
-        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(true);
+        _doctorScheduleRepository.ScheduleIsFreeAsync(Command.DoctorId, Command.Date, Command.Start, Command.End, Arg.Any<CancellationToken>()).Returns(true);
         _unitOfWork.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act

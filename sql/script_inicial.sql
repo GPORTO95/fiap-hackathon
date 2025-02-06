@@ -7,16 +7,18 @@ CREATE TABLE [Doctors] (
     [Cpf] varchar(11) NOT NULL,
     [PasswordHash] varchar(100) NOT NULL,
     [Crm] varchar(7) NOT NULL,
+    [Specialty] int NOT NULL,
     CONSTRAINT [PK_Doctors] PRIMARY KEY ([Id])
 );
 
 CREATE TABLE [DoctorSchedules] (
     [Id] uniqueidentifier NOT NULL,
     [DoctorId] uniqueidentifier NOT NULL,
+    [PatientId] uniqueidentifier NULL,
     [Date] DATE NOT NULL,
     [Start] TIME NOT NULL,
     [End] TIME NOT NULL,
-    [Available] BIT NOT NULL,
+    [Status] INT NOT NULL,
     CONSTRAINT [PK_Schedule] PRIMARY KEY ([Id])
 );
 
