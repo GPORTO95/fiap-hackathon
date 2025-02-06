@@ -31,7 +31,7 @@ O objetivo desse desafio é criar uma aplicação onde seja possível realizar o
 > [!NOTE]
 > Utilizado um arquitetura de microservice (pacientes e doutores), assim obedecendo os padrões do DDD como separação de responsabilidade, responsabilidade única, objetos de valores, modelos ricos, .... onde cada api tem as camadas abaixo
 
-_ **Api**: Endpoints e middlewares
+- **Api**: Endpoints e middlewares
 - **Application**: CQRS, interfaces para serviços externos, pipeline behaviors e validações de comandos.com fluent validator
 - **Domain**: Classes compartilhadas, entidades, objetos de valor, interface de repositorios e mensagens de erros
 - **Infrastructure**: Camada de acesso a dados, cache e classes concretas de acesso a serviços externos
