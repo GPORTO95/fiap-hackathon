@@ -93,7 +93,7 @@ tests
     - [x] Value Objects
     - [x] Pacientes
     - [x] Doutores
-- [ ] CI/CD
+- [x] CI/CD
 - [x] Autenticação
     - [x] Policy para Doutores
     - [x] Policy para Pacientes
