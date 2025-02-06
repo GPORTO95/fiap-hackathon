@@ -99,9 +99,6 @@ tests
     - [x] Policy para Pacientes
     
 ## :bookmark: Métodos
-> [!IMPORTANT]
-> Propriedades marcadas com o ícone :small_orange_diamond: são de preenchimento obrigatório nos atributos
-
 <details>
     <summary>[Login de medicos]</summary>
 
@@ -706,3 +703,19 @@ POST /api/v1/patients/login
     }
     ```
 </details>
+
+## :warning: Requisitos
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) ou [SSMS](https://learn.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+    - Recomendação de uso do Docker, é muito simples obter uma imagem do SQL, basta seguir esse [link](https://balta.io/blog/sql-server-docker)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/downloads/)
+- [SDK .NET 9](https://dotnet.microsoft.com/pt-br/download/dotnet/9.0)
+- [Postman](https://www.postman.com/downloads)
+- [Azure Data Studio](https://learn.microsoft.com/pt-br/azure-data-studio/download-azure-data-studio?tabs=win-install%2Cwin-user-install%2Credhat-install%2Cwindows-uninstall%2Credhat-uninstall)
+
+  ## :zap: Running
+1. Clone o projeto do Github para sua maquina local
+2. Abra a pasta sql e execute o script inicial no seu banco local
+3. Alterar conexão com o banco de dados no arquivo de appsettings.development.json que fica na camada de API
+4. Executar o projeto
+6. E fique a vontade para melhorar o código haha
+
