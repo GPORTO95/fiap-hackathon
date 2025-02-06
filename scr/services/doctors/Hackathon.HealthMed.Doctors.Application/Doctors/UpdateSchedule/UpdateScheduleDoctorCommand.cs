@@ -8,13 +8,15 @@ namespace Hackathon.HealthMed.Doctors.Application.Doctors.UpdateSchedule;
 public sealed record UpdateScheduleDoctorRequest(
     DateOnly Date,
     TimeSpan Start,
-    TimeSpan End);
+    TimeSpan End,
+    decimal Price);
 
 public sealed record UpdateScheduleDoctorCommand(
     Guid DoctorScheduleId,
     DateOnly Date,
     TimeSpan Start,
-    TimeSpan End) : ICommand;
+    TimeSpan End,
+    decimal Price) : ICommand;
 
 internal sealed class UpdateScheduleDoctorCommandHandler(
     IDoctorScheduleRepository doctorScheduleRepository,
@@ -46,7 +48,7 @@ internal sealed class UpdateScheduleDoctorCommandHandler(
             return Result.Failure<Guid>(DoctorScheduleErrors.IsNotFree);
         }
 
-        schedule.UpdateSchedule(rangeResult.Value);
+        schedule.UpdateSchedule(rangeResult.Value, request.Price);
 
         doctorScheduleRepository.Update(schedule);
 

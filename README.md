@@ -11,6 +11,7 @@ O objetivo desse desafio é criar uma aplicação onde seja possível realizar o
 - Aunteticação de pacientes
 - Busca por médicos
 - Agendamento de consultas
+- Cancelamento de consultas
 - Confirmação de consultas
 
 ### Não funcionais
@@ -28,13 +29,14 @@ O objetivo desse desafio é criar uma aplicação onde seja possível realizar o
 
 ## :building_construction: Arquitetura
 > [!NOTE]
-> Utilizado um arquitetura separada em Camadas (abaixo explico o que cada uma compõe), assim obedecendo os padrões do DDD como separação de responsabilidade, responsabilidade única, objetos de valores, modelos ricos, ....
+> Utilizado um arquitetura de microservice (pacientes e doutores), assim obedecendo os padrões do DDD como separação de responsabilidade, responsabilidade única, objetos de valores, modelos ricos, .... onde cada api tem as camadas abaixo
 
+_ **Api**: Endpoints e middlewares
 - **Application**: CQRS, interfaces para serviços externos, pipeline behaviors e validações de comandos.com fluent validator
 - **Domain**: Classes compartilhadas, entidades, objetos de valor, interface de repositorios e mensagens de erros
 - **Infrastructure**: Camada de acesso a dados, cache e classes concretas de acesso a serviços externos
-- **Application.UnitTests**: Testes unitário para classes de comandos, queries e validações
-- **Domain.UnitTests**: Testes unitário para entidades e objetos de valor
+
+<img src="./.assets/arch.jpg" width="400" height="250">
 
 <!--## :deciduous_tree: Projeto
  src
@@ -83,6 +85,7 @@ tests
     - [x] GET | Listagem de medicos
     - [x] GET | Listagem de horarios disponiveis por médico
     - [x] POST | Agendamento de paciente e médico
+    - [x] PATCH | Cancelamento de agendamento
     - [x] PATCH | Aceitação/Recusa de agendamento
     - [x] POST | Criação paciente
     - [x] POST | Autenticação paciente
@@ -91,8 +94,10 @@ tests
     - [x] Pacientes
     - [x] Doutores
 - [ ] CI/CD
+- [x] Autenticação
+    - [x] Policy para Doutores
+    - [x] Policy para Pacientes
     
-
 ## :bookmark: Métodos
 > [!IMPORTANT]
 > Propriedades marcadas com o ícone :small_orange_diamond: são de preenchimento obrigatório nos atributos
@@ -230,6 +235,9 @@ POST /api/v1/doctors
 POST /api/v1/doctors/schedule
 ```
 
+- ### Autenticação
+    - So é possível ser acessado por um doutor logado
+
 - #### Caso de sucesso
     - Será retornado um status code 200 com o Id do horario cadastrado
 
@@ -247,6 +255,7 @@ POST /api/v1/doctors/schedule
 | Date | DateOnly | Sim | Deve ser informado uma data válida | "2025-01-01" | "01-12-2029" |
 | Start | TimeSpan | Sim | Deve ser informado um horário válido | "09:23" | "15" |
 | End | TimeSpan | Sim | Deve ser informado um horário válido | "11:00" | "25" |
+| Price | Decimal | Sim | Deve ser informado o preço do agendamento | 299.99 | "25" |
 
 - #### Exemplo Request
     - ##### Válido
@@ -290,6 +299,9 @@ POST /api/v1/doctors/schedule
 PUT /api/v1/doctors/{doctorScheduleId}/schedule
 ```
 
+- ### Autenticação
+    - So é possível ser acessado por um doutor logado
+
 - #### Caso de sucesso
     - Será retornado um status code 204
 
@@ -308,6 +320,7 @@ PUT /api/v1/doctors/{doctorScheduleId}/schedule
 | Date | DateOnly | Sim | Deve ser informado uma data válida | "2025-01-01" | "01-12-2029" |
 | Start | TimeSpan | Sim | Deve ser informado um horário válido | "09:23" | "15" |
 | End | TimeSpan | Sim | Deve ser informado um horário válido | "11:00" | "25" |
+| Price | Decimal | Sim | Deve ser informado o preço do agendamento | 299.99 | "25" |
 
 - #### Exemplo Request
     - ##### Válido
@@ -349,6 +362,9 @@ PUT /api/v1/doctors/{doctorScheduleId}/schedule
 ```http
 GET /api/v1/doctors?page=1
 ```
+
+- ### Autenticação
+    - So é possível ser acessado por um paciente logado
 
 - #### Caso de sucesso
     - Será retornado uma objeto tipo PagedList com dados de paginação
@@ -399,6 +415,9 @@ GET /api/v1/doctors?page=1
 GET /api/v1/doctors/{doctorId}/available-schedule
 ```
 
+- ### Autenticação
+    - So é possível ser acessado por um paciente logado
+
 - #### Caso de sucesso
     - Será retornado uma lista com os horarios disponiveis do médico informado
 
@@ -418,13 +437,15 @@ GET /api/v1/doctors/{doctorId}/available-schedule
             "doctorScheduleId: ": "62db978f-9999-45c9-9304-2d12554bd038",
             "date": "2025-01-31",
             "start": "09:42",
-            "end": "10:00"
+            "end": "10:00",
+            "price": 100.98
         },
         {
             "doctorScheduleId: ": "62db978f-9999-45c9-9304-2d12554bd038",
             "date": "2025-01-31",
-            "start": "10:10",
-            "end": "11:00"
+            "start": "22:10",
+            "end": "23:00",
+            "price": 200.98
         }
     ]
     ```
@@ -435,6 +456,9 @@ GET /api/v1/doctors/{doctorId}/available-schedule
 ```http
 POST /api/v1/doctors/{doctorScheduleId}/{patientId}/appointment
 ```
+
+- ### Autenticação
+    - So é possível ser acessado por um paciente logado
 
 - #### Caso de sucesso
     - Será retornado um status code 204 NoContent
@@ -479,11 +503,62 @@ POST /api/v1/doctors/{doctorScheduleId}/{patientId}/appointment
     ```
 </details>
 <details>
+    <summary>[Cancelamento de agendamento]</summary>
+
+```http
+PATCH /api/v1/doctors/{doctorScheduleId}/appointment/cancel
+```
+
+- ### Autenticação
+    - So é possível ser acessado por um doutor logado
+
+- #### Caso de sucesso
+    - Será retornado um status code 204 NoContent
+
+- #### Caso de uso
+    - Caso o `DoctorScheduleId` informado não esteja registrado será retornado um NotFound
+    - Caso o `DoctorScheduleId` informado não esteja com status de `Pending` será retornado um BadRequest
+
+- #### Parametros de rota
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| DoctorScheduleId | Guid | Sim | Deve ser informado o Id do horarios disponivel do doutor | 273b548a-63bc-424f-bb6a-0f60052c0f7a | T3st# |
+
+- #### Atributos
+| Propriedade | Tipo | Obrigatório | Descrição | Exemplo válido | Exemplo inválido |
+|----|----|----|----|----|----|
+| Reason | String | Sim | Deve ser informado o motivo do cancelamento | Nao poderei ir a consulta | null |
+
+- #### Exemplo Request
+    - ##### Válido
+    ```json 
+    {
+        "reason": "não poderei comparecer"
+    }
+    ```
+    - ##### Response
+    ```
+    ```
+    - ##### Caso de uso - Status inválido
+    ```json
+    {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        "title": "DoctorSchedule.IsNotPending",
+        "status": 400,
+        "detail": "Doctor schedule is not pending.",
+        "traceId": "00-4f57e8edb2a2faf10aea56a48c513d59-9a7f6cc87de71504-00"
+    }
+    ```
+</details>
+<details>
     <summary>[Aceitação/Recusa de agendamento]</summary>
 
 ```http
 PATCH /api/v1/doctors/{doctorScheduleId}/appointment/status:{status}
 ```
+
+- ### Autenticação
+    - So é possível ser acessado por um doutor logado
 
 - #### Caso de sucesso
     - Será retornado um status code 204 NoContent
@@ -596,7 +671,6 @@ POST /api/v1/patients/login
 
 - #### Caso de sucesso
     - Será retornado um status code 200 com token
-
 
 - #### Validação de dados
     - Caso o `email` informado não seja valido será retornado um BadRequest

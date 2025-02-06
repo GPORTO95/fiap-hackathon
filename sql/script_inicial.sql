@@ -19,6 +19,8 @@ CREATE TABLE [DoctorSchedules] (
     [Start] TIME NOT NULL,
     [End] TIME NOT NULL,
     [Status] INT NOT NULL,
+    [Reason] VARCHAR(100) NULL,
+    [Price] DECIMAL (6,2) NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Schedule] PRIMARY KEY ([Id])
 );
 
@@ -29,11 +31,4 @@ CREATE TABLE [Patients] (
     [Cpf] varchar(11) NOT NULL,
     [PasswordHash] varchar(100) NOT NULL,
     CONSTRAINT [PK_Patients] PRIMARY KEY ([Id])
-);
-
-CREATE TABLE [Appointment] (
-    [Id] uniqueidentifier NOT NULL,
-    [DoctorScheduleId] uniqueidentifier NOT NULL,
-    [PatientId] uniqueidentifier NOT NULL,
-    CONSTRAINT [PK_Appointments] PRIMARY KEY ([Id])
 );

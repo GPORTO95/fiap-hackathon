@@ -9,7 +9,8 @@ public sealed record AddScheduleDoctorCommand(
     Guid DoctorId,
     DateOnly Date,
     TimeSpan Start,
-    TimeSpan End) : ICommand<Guid>;
+    TimeSpan End,
+    decimal Price) : ICommand<Guid>;
 
 internal sealed class AddScheduleDoctorCommandHandler(
     IDoctorRepository doctorRepository,
@@ -38,7 +39,8 @@ internal sealed class AddScheduleDoctorCommandHandler(
         DoctorSchedule schedule = DoctorSchedule.Create(
             Guid.NewGuid(),
             rangeResult.Value,
-            request.DoctorId);
+            request.DoctorId,
+            request.Price);
 
         doctorScheduleRepository.Add(schedule);
 

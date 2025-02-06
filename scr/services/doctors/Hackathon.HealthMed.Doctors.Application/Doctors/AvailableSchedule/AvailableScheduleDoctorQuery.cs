@@ -10,7 +10,8 @@ public sealed record AvailableScheduleDoctorQueryResponse(
     Guid DoctorScheduleId,
     DateOnly Date,
     TimeSpan Start,
-    TimeSpan End);
+    TimeSpan End,
+    decimal Price);
 
 internal sealed class AvailableScheduleDoctorQueryHandler(IDoctorRepository doctorRepository, IDoctorScheduleRepository doctorScheduleRepository) : IQueryHandler<AvailableScheduleDoctorQuery, IEnumerable<AvailableScheduleDoctorQueryResponse>>
 {
@@ -35,7 +36,8 @@ internal sealed class AvailableScheduleDoctorQueryHandler(IDoctorRepository doct
                 s.Id,
                 s.Time.Date,
                 s.Time.Start,
-                s.Time.End))
+                s.Time.End,
+                s.Price))
             .ToList();
     }
 }

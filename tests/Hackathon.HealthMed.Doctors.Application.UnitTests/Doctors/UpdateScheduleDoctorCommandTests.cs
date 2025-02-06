@@ -11,7 +11,8 @@ public class UpdateScheduleDoctorCommandTests
         Guid.NewGuid(),
         DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
         new TimeSpan(10, 0, 0),
-        new TimeSpan(12, 0, 0));
+        new TimeSpan(12, 0, 0),
+        10);
 
     private readonly IDoctorScheduleRepository _doctorScheduleRepository;
     private readonly IUnitOfWork _unitOfWork;

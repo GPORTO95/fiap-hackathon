@@ -25,7 +25,7 @@ internal sealed class JwtProvider : IJwtProvider
         {
             new(JwtRegisteredClaimNames.Sub, doctor.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, doctor.Email.Value),
-            new("doctor", "doctor"),
+            new("profile", "doctor"),
         };
 
 

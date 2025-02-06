@@ -5,5 +5,6 @@ public enum ScheduleStatus
     Free,
     Pending,
     Accepted,
-    Rejected
+    Rejected,
+    Canceled
 }

@@ -9,7 +9,9 @@ using Hackathon.HealthMed.Doctors.Infrastructure.Repositories;
 using Hackathon.HealthMed.Doctors.Infrastructure.Services.Notifications;
 using Hackathon.HealthMed.Kernel.Data;
 using Hackathon.HealthMed.Kernel.Shared;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,31 +48,51 @@ public static class DependencyInjection
         services.AddScoped<IJwtProvider, JwtProvider>();
 
         services.AddScoped<INotificationService, NotificationService>();
+
+        AddJwtAuthentication(services, configuration);
     }
 
-    public static void AddJwtAuthentication(
+    private static void AddJwtAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
+        services
+            .AddAuthentication(options =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration["Jwt:Issuer"],
-                ValidAudience = configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
-                ClockSkew = TimeSpan.Zero
-            };
-        });
+                options.DefaultScheme = "scheme-doctor";
+            })
+            .AddJwtBearer("scheme-doctor", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            })
+            .AddJwtBearer("scheme-patient", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
-        services.AddAuthorizationBuilder()
-            .AddPolicy("DoctorOnly", policy => policy.RequireClaim("doctor","doctor"))
-            .AddPolicy("patient", policy => policy.RequireClaim("patient"));
-        //services.AddAuthorization();
+        services
+            .AddAuthorizationBuilder()
+            .AddPolicy("DoctorOnly", policy => policy.RequireClaim("profile", "doctor"))
+            .AddPolicy("PatientOnly", policy => policy.RequireClaim("profile", "patient"));
     }
 }

@@ -2,6 +2,7 @@ using Hackathon.HealthMed.Api.Core.Extensions;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddAppointment;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AddSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.AvailableSchedule;
+using Hackathon.HealthMed.Doctors.Application.Doctors.CancelSchedule;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Create;
 using Hackathon.HealthMed.Doctors.Application.Doctors.ListPaged;
 using Hackathon.HealthMed.Doctors.Application.Doctors.Login;
@@ -28,7 +29,7 @@ public static class DoctorsEndpoint
             Result<PagedList<ListPagedDoctorQueryResponse>> result = await sender.Send(new ListPagedDoctorQuery(page, pageSize, search, specialty), CancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
-        });
+        }).RequireAuthorization("PatientOnly");
 
         app.MapGet("api/doctors/{doctorId}/available-schedule", async (
             Guid doctorId,
@@ -38,7 +39,7 @@ public static class DoctorsEndpoint
             Result<IEnumerable<AvailableScheduleDoctorQueryResponse>> result = await sender.Send(new AvailableScheduleDoctorQuery(doctorId), CancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
-        }); 
+        }).RequireAuthorization("PatientOnly");
 
         app.MapPost("api/doctors/login", async (
             LoginDoctorCommand command,
@@ -68,7 +69,7 @@ public static class DoctorsEndpoint
             Result<Guid> result = await sender.Send(command, CancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
-        });
+        }).RequireAuthorization("DoctorOnly");
 
         app.MapPut("api/doctors/{doctorScheduleId}/schedule", async (
             Guid doctorScheduleId,
@@ -76,10 +77,10 @@ public static class DoctorsEndpoint
             ISender sender,
             CancellationToken CancellationToken) =>
         {
-            Result result = await sender.Send(new UpdateScheduleDoctorCommand(doctorScheduleId, request.Date, request.Start, request.End), CancellationToken);
+            Result result = await sender.Send(new UpdateScheduleDoctorCommand(doctorScheduleId, request.Date, request.Start, request.End, request.Price), CancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
-        });
+        }).RequireAuthorization("DoctorOnly");
 
         app.MapPost("api/doctors/{doctorScheduleId}/{patientId}/appointment", async (
             Guid doctorScheduleId,
@@ -90,7 +91,18 @@ public static class DoctorsEndpoint
             Result result = await sender.Send(new AddAppointmentCommand(doctorScheduleId, patientId), CancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
-        });
+        }).RequireAuthorization("PatientOnly");
+
+        app.MapPatch("api/doctors/{doctorScheduleId}/appointment/cancel", async (
+            Guid doctorScheduleId,
+            CancelScheduleDoctorRequest request,
+            ISender sender,
+            CancellationToken CancellationToken) =>
+        {
+            Result result = await sender.Send(new CancelScheduleDoctorCommand(doctorScheduleId, request.Reason), CancellationToken);
+
+            return result.Match(Results.NoContent, CustomResults.Problem);
+        }).RequireAuthorization("PatientOnly");
 
         app.MapPatch("api/doctors/{doctorScheduleId}/appointment/status:{status}", async (
             Guid doctorScheduleId,
@@ -101,6 +113,6 @@ public static class DoctorsEndpoint
             Result result = await sender.Send(new UpdateStatusScheduleDoctorCommand(doctorScheduleId, status), CancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
-        });
+        }).RequireAuthorization("DoctorOnly");
     }
 }

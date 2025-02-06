@@ -15,8 +15,6 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-//builder.Services.AddMvc();
-
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
@@ -40,7 +38,6 @@ app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
 
-//app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 

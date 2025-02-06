@@ -4,15 +4,20 @@ public sealed class DoctorSchedule
 {
     public DoctorSchedule() { }
     
-    private DoctorSchedule(Guid id, TimeStampRange time, Guid doctorId)
+    private DoctorSchedule(Guid id, TimeStampRange time, Guid doctorId, decimal price)
     {
         Id = id;
         DoctorId = doctorId;
         Time = time;
         Status = ScheduleStatus.Free;
+        Price = price;
     }
 
     public Guid Id { get; set; }
+
+    public string? Reason { get; set; }
+
+    public decimal Price { get; set; }
 
     public ScheduleStatus Status { get; set; }
 
@@ -23,9 +28,9 @@ public sealed class DoctorSchedule
 
     public Guid? PatientId { get; set; }
 
-    public static DoctorSchedule Create(Guid id, TimeStampRange time, Guid doctorId)
+    public static DoctorSchedule Create(Guid id, TimeStampRange time, Guid doctorId, decimal price)
     {
-        return new DoctorSchedule(id, time, doctorId);
+        return new DoctorSchedule(id, time, doctorId, price);
     }
 
     public void AddPatient(Guid patientId)
@@ -33,10 +38,11 @@ public sealed class DoctorSchedule
         PatientId = patientId;
     }
 
-    public void UpdateSchedule(TimeStampRange time)
+    public void UpdateSchedule(TimeStampRange time, decimal price)
     {
         Time = time;
         Status = ScheduleStatus.Free;
+        Price = price;
     }
 
     public bool IsAvailableForUpdate()
@@ -54,8 +60,13 @@ public sealed class DoctorSchedule
         return Status == ScheduleStatus.Pending;
     }
 
-    public void UpdateStatus(ScheduleStatus status)
+    public void UpdateStatus(ScheduleStatus status, string? reason = null)
     {
         Status = status;
+
+        if (!string.IsNullOrWhiteSpace(reason))
+        {
+            Reason = reason;
+        }
     }
 }
