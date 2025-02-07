@@ -1,4 +1,4 @@
-USE PublicEnterpriseDb
+USE StoreEnterpriseDb
 
 CREATE TABLE [Doctors] (
     [Id] uniqueidentifier NOT NULL,
