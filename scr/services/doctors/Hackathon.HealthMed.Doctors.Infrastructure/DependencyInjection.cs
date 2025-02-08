@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -24,16 +25,20 @@ public static class DependencyInjection
 {
     public static void AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        ILoggerFactory loggerFactory)
     {
 
-        string? connectionString = configuration.GetConnectionString("Database");
+        var logger = loggerFactory.CreateLogger("Test");
+
+
+        string? connectionString = "Server={MSSQL_HOST};Database=PublicEnterpriseDb;User ID={MSSQL_USER};Password={SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;";
         Ensure.NotNullOrEmpty(connectionString);
 
 
         var sqlUser = Environment.GetEnvironmentVariable("MSSQL_USER") ?? "sa";
 
-        var saPassword = Environment.GetEnvironmentVariable("SA_PASSWORD") ?? "1q2w3e4r@#$";
+        var saPassword = Environment.GetEnvironmentVariable("SA_PASSWORD") ?? "sqlpassword!123";
 
         var host = Environment.GetEnvironmentVariable("MSSQL_HOST") ?? "host.docker.internal,1433";
 
@@ -41,6 +46,9 @@ public static class DependencyInjection
                                            .Replace("{SA_PASSWORD}", saPassword)
                                            .Replace("{MSSQL_HOST}", host);
 
+
+        logger.LogInformation("TestConnection");
+        logger.LogInformation(connectionString);
 
         services.AddDbContext<ApplicationDbContext>(
             (sp, options) => options

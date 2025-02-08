@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: jwt-config
-  namespace: api-patient
+  namespace: api-doctor
 data:
   JWT_ISSUER: HealthMedPatient
   JWT_AUDIENCE: HealthMedPatient
@@ -13,7 +13,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sqlserver-config
-  namespace: api-patient
+  namespace: api-doctor
   labels:
     app: sqlserver
   annotations:

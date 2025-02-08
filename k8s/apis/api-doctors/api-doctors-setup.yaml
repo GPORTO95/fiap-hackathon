@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: api-doctor
-        image: lucaslearningsw/tech-api-doctor:latest
+        image: lucaslearningsw/hack-api-doctor:latest
         ports:
         - containerPort: 8081
         env:
