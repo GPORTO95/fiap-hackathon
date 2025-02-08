@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: api-patient
-        image: lucaslearningsw/tech-api-patient:latest
+        image: lucaslearningsw/hack-api-patient:latest
         ports:
         - containerPort: 8082
         env:

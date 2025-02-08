@@ -22,7 +22,7 @@ public static class DependencyInjection
         var logger = loggerFactory.CreateLogger("Test");
 
 
-        string? connectionString = configuration.GetConnectionString("Database");
+        string? connectionString = "Server={MSSQL_HOST};Database=PublicEnterpriseDb;User ID={MSSQL_USER};Password={SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;";
         Ensure.NotNullOrEmpty(connectionString);
 
 
@@ -35,6 +35,7 @@ public static class DependencyInjection
         connectionString = connectionString.Replace("{MSSQL_USER}", sqlUser)
                                            .Replace("{SA_PASSWORD}", saPassword)
                                            .Replace("{MSSQL_HOST}", host);
+
 
         logger.LogInformation("TestConnection");
         logger.LogInformation(connectionString);
