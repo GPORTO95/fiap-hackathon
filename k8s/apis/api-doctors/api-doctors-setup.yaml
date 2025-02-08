@@ -26,10 +26,10 @@ spec:
       - name: api-doctor
         image: lucaslearningsw/hack-api-doctor:latest
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         env:
-        - name: ASPNETCORE_URLS
-          value: "http://0.0.0.0:8081"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
         - name: MSSQL_USER
           valueFrom:
             configMapKeyRef:
@@ -80,5 +80,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8081    # Port exposed externally
-      targetPort: 8081 # Port on the container
+      targetPort: 8080 # Port on the container
   type: NodePort

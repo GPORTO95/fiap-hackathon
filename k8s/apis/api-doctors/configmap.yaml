@@ -22,4 +22,4 @@ data:
   MSSQL_USER: "sa"
   SA_PASSWORD: "sqlpassword!123"
   ACCEPT_EULA: "Y"
-  MSSQL_HOST: "sqlserver-nodeport-service.sqlserver-namespace.svc.cluster.local"
+  MSSQL_HOST: "sqlserver-nodeport-service.sqlserver-namespace.svc.cluster.local,1433"

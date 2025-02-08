@@ -33,7 +33,6 @@ public static class DependencyInjection
 
 
         string? connectionString = "Server={MSSQL_HOST};Database=PublicEnterpriseDb;User ID={MSSQL_USER};Password={SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;";
-        Ensure.NotNullOrEmpty(connectionString);
 
 
         var sqlUser = Environment.GetEnvironmentVariable("MSSQL_USER") ?? "sa";
